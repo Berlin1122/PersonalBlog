@@ -35,6 +35,11 @@ public class BlogManagementController {
         return "html/adminlogin";
     }
 
+    @RequestMapping(value = "/showblogbycategory",method = RequestMethod.GET)
+    public String showBlogByCategory(){
+        return "html/bloglist";
+    }
+
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> handleLogin(HttpServletRequest request){
