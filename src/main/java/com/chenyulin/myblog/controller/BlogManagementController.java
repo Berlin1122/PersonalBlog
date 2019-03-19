@@ -7,16 +7,25 @@ import com.chenyulin.myblog.service.ArticleCategoryService;
 import com.chenyulin.myblog.service.ArticleService;
 import com.chenyulin.myblog.service.UserService;
 import com.chenyulin.myblog.utils.HttpServletRequestUtil;
+import com.chenyulin.myblog.utils.ImageUtil;
+import com.chenyulin.myblog.utils.PageUtil;
+import com.chenyulin.myblog.utils.PathUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
+
+/**
+ * 处理管理者登录、管理博客、编辑博客请求
+ */
 
 @Controller
 @RequestMapping("/blog")
@@ -35,10 +44,6 @@ public class BlogManagementController {
         return "html/adminlogin";
     }
 
-    @RequestMapping(value = "/showblogbycategory",method = RequestMethod.GET)
-    public String showBlogByCategory(){
-        return "html/bloglist";
-    }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @ResponseBody
@@ -51,13 +56,15 @@ public class BlogManagementController {
         User user = new User();
         user.setUserName(userName);
         user.setPwd(pwd);
-
         User userDB = userService.getUserByUserName(user);
-        System.out.println("数据库值："+userDB.getPwd()+userDB.getUserName());
+
+        int count = articleService.getArticleCountByUser(userDB);
+        int totalPage = PageUtil.calTotalPages(count);
+
         if(userDB != null && userDB.getPwd().equals(user.getPwd())){
             System.out.println("匹配");
             modelMap.put("success",true);
-            modelMap.put("url","/blog/"+userName+"/manage");
+            modelMap.put("url","/blog/"+userName+"/manage/"+totalPage+"/1");
         }else{
             System.out.println("不匹配");
             modelMap.put("success",false);
@@ -65,23 +72,42 @@ public class BlogManagementController {
         return modelMap;
     }
 
-    @RequestMapping(value = "/{username}/manage",method = RequestMethod.GET)
-    public String manageBlog(@PathVariable("username") String userName, Model model){
+    @RequestMapping(value = "/{username}/manage/{totalpage}/{currpage}",method = RequestMethod.GET)
+    public String manageBlog(@PathVariable("username") String userName,
+                             @PathVariable("totalpage") String totalPage,
+                             @PathVariable("currpage") String currentPage,
+                             Model model){
+
         model.addAttribute("userName",userName);
-        System.out.println(userName+"===========");
+        model.addAttribute("currPage",currentPage);
+        model.addAttribute("totalPage",totalPage);
+
+        User user = new User();
+        user.setUserName(userName);
+        User currUser = userService.getUserByUserName(user);
+        int page = Integer.parseInt(currentPage);
+        List<Article> articleList = articleService.getArticleListByUser(currUser,page);
+
+        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
+        model.addAttribute("categoryList",categoryList);
+        model.addAttribute("articleList",articleList);
         return "html/blogmanagement";
     }
 
     @RequestMapping(value = "/{username}/edit",method = RequestMethod.GET)
     public String writeBlog(@PathVariable("username") String userName, Model model){
         model.addAttribute("userName",userName);
-        List<ArticleCategory> categoryList = categoryService.getAllArticleCategory();
+        User user = new User();
+        user.setUserName(userName);
+
+        User currUser = userService.getUserByUserName(user);
+        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
         for (ArticleCategory category:categoryList) {
             System.out.println(category.getCategoryName());
         }
         model.addAttribute("categoryList",categoryList);
 
-        System.out.println(userName+"===========from edit");
+
         return "html/blogedit";
     }
 
@@ -99,13 +125,14 @@ public class BlogManagementController {
         String title = HttpServletRequestUtil.getString(request,"title");
         int status = HttpServletRequestUtil.getInt(request,"status");
         String categoryName = HttpServletRequestUtil.getString(request,"categoryName");
+        int categoryId = HttpServletRequestUtil.getInt(request,"categoryId");
 
         ArticleCategory articleCategory = new ArticleCategory();
         articleCategory.setCategoryName(categoryName);
-        ArticleCategory category = categoryService.getCategoryByCategoryName(articleCategory);
+        articleCategory.setCategoryId(categoryId);
 
         //以上是获取表单的数据
-        if(user != null && category != null){
+        if(user != null && articleCategory != null){
             article.setUser(user);
             article.setTitle(title);
             article.setStatus(status);
@@ -113,7 +140,7 @@ public class BlogManagementController {
             article.setCreateTime(new Date());
             article.setContent(content);
             article.setBriefIntro(briefIntro);
-            article.setCategory(category);
+            article.setCategory(articleCategory);
             boolean success = articleService.addArtilcle(article);
             if(success){
                 modelMap.put("success",true);
@@ -126,4 +153,87 @@ public class BlogManagementController {
         }
         return modelMap;
     }
+
+    @RequestMapping(value = "/{username}/deletecategory",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> deleteCategory(@PathVariable("username") String userName,HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String,Object>();
+        int category_id = HttpServletRequestUtil.getInt(request,"categoryId");
+        ArticleCategory category = new ArticleCategory();
+        category.setCategoryId(category_id);
+        boolean isDeleted = categoryService.deleteCategory(category);
+        if(isDeleted){
+            modelMap.put("success",true);
+        }else{
+            modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
+    @RequestMapping(value = "/{username}/addcategory",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> addCategory(@PathVariable("username") String userName,HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String,Object>();
+        User user = new User();
+        user.setUserName(userName);
+        User currUser = userService.getUserByUserName(user);
+        String categoryName = HttpServletRequestUtil.getString(request,"categoryName");
+        ArticleCategory category = new ArticleCategory();
+        category.setUser(currUser);
+        category.setCategoryName(categoryName);
+        boolean isAdded = categoryService.addCategory(category);
+
+        if(isAdded){
+            modelMap.put("success",true);
+        }else{
+            modelMap.put("success",false);
+        }
+        return modelMap;
+    }
+
+    @RequestMapping(value = "/{username}/deletearticle",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> deleteArticle(@PathVariable("username") String userName,HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String,Object>();
+        int articleId = HttpServletRequestUtil.getInt(request,"articleId");
+        System.out.println(articleId+"=========article");
+        Article article = new Article();
+        article.setArticleId(articleId);
+
+        boolean isDeleted = articleService.removeArticleById(article);
+        if(isDeleted){
+            modelMap.put("success",true);
+        }else{
+            modelMap.put("success",false);
+            modelMap.put("errorMsg","系统内部错误");
+        }
+        return modelMap;
+    }
+
+    /**
+     * 博客中图片上传，方法中，参数任何位置都不能改动
+     * @param request
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/uploadfile",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> uploadFile(HttpServletRequest request,
+                                         @RequestParam(value = "editormd-image-file", required = true)
+                                                 MultipartFile file)throws Exception{
+        Map<String,Object> modelMap = new HashMap<String,Object>();
+
+        String basePath = PathUtil.getImgBasePath();
+        String imageFileName = ImageUtil.saveToLocal(file,basePath);//保存成功后返回实际存储的物理地址
+        if(imageFileName != null){
+            modelMap.put("success",1);
+            modelMap.put("url",imageFileName);
+        }else{
+            modelMap.put("success",0);
+        }
+        return modelMap;
+    }
+
 }
+

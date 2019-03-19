@@ -10,8 +10,10 @@
     <title>博客管理</title>
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet">
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <!-- 这里引用blogedit.css 是为了使用.category{}这个空样式，用于做类选择器，辅助实现类别删除-->
+    <link th:href="@{/css/blogcss/blogedit.css}" rel="stylesheet">
+    <link th:href="@{/bootstrappaginator/css/bootstrap.css}" rel="stylesheet">
+
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-static-top">
@@ -45,43 +47,23 @@
                 <thead>
                 <tr>
                     <th>标题</th>
-                    <th>分类</th>
                     <th>发布时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th>标题1</th>
-                    <th>分类1</th>
-                    <th>2018/12/12</th>
-                    <th>
-                        <button type="button" class="btn btn-sm btn-danger"> 删除</button>
-                        <button type="button" class="btn btn-sm btn-info"> 更改</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>标题1</th>
-                    <th>分类1</th>
-                    <th>2018/12/12</th>
-                    <th>
-                        <button type="button" class="btn btn-sm btn-danger"> 删除</button>
-                        <button type="button" class="btn btn-sm btn-info"> 更改</button>
-                    </th>
-                </tr>
-                <tr>
-                    <th>标题试1</th>
-                    <th>分类1</th>
-                    <th>2018/12/12</th>
-                    <th>
-                        <button type="button" class="btn btn-sm btn-danger"> 删除</button>
+                <tr th:each="article,iterInfo: ${articleList}">
+                    <th th:text="${article.title}">标题1</th>
+                    <th th:text="${#dates.format(article.lastEditTime,'yyyy-MM-dd')}">2018/12/12</th>
+                    <th class="article">
+                        <button th:id="${article.articleId}" type="button" class="btn btn-sm btn-danger"> 删除</button>
                         <button type="button" class="btn btn-sm btn-info"> 更改</button>
                     </th>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-sm-3 blog-sidebar">
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
             <div class="sidebar-module sidebar-module-inset">
                 <h4 class="text-info">类别管理</h4>
                 <p>选择添加新的类别,将产生一个新的类别,在首页展示和博客编辑时可以进行选择.
@@ -93,9 +75,9 @@
                 <h4 class="text-success">添加类别</h4>
                 <ol class="list-unstyled">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="在此输入类别名称">
+                        <input id="inpCategory"type="text" class="form-control" placeholder="在此输入类别名称">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">添加</button>
+                            <button id="btnAddCategory"class="btn btn-default" type="button">添加</button>
                         </span>
                     </div><!-- /input-group -->
                 </ol>
@@ -106,15 +88,14 @@
                 <ol class="list-unstyled">
                     <li>
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                            <button id="btnCategory"type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">点击选择一个类目<span class="caret"></span></button>
                             <ul class="dropdown-menu dropdown-menu-right">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li><a href="#">Separated link</a></li>
+                                <li th:each="category,iterInfo: ${categoryList}">
+                                    <a class="category" th:id="${category.categoryId}" th:text="${category.categoryName}"></a>
+                                </li>
                             </ul>
-                            <button class="btn btn-md btn-danger">删除</button>
+                            <button id="btnDeleteCategory"class="btn btn-md btn-danger">删除</button>
                         </div><!-- /btn-group -->
 
                     </li>
@@ -122,26 +103,10 @@
             </div>
         </div><!-- /.blog-sidebar -->
     </div>
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-
+    <div  id="pagination">
+        <span id="spanCurrPage" hidden="hidden" th:text="${currPage}"></span>
+        <span id="spanTotalPage" hidden="hidden" th:text="${totalPage}"></span>
+    </div>
     <hr>
     <footer>
         <p>&copy; 2016 Company, Inc.</p>
@@ -153,6 +118,7 @@
 <!-- Placed at the end of the document so the pages load faster -->
 <script th:src="@{/js/jquery.min.js}">
 </script>
+<script th:src="@{/bootstrappaginator/src/bootstrap-paginator.js}" type="text/javascript"></script>
 <script th:src="@{/bootstrap-3.3.7/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/blogjs/blogmanagement.js}" type="text/javascript" charset='utf-8'>
 </script>
