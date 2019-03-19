@@ -27,7 +27,7 @@
             path: "/editor.md/lib/",
             imageUpload: true,
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "/uploadfile",
+            imageUploadURL: "/blog/uploadfile",
             saveHTMLToTextarea: true,
         });
     });
@@ -35,7 +35,7 @@
 
 <nav class="navbar navbar-inverse navbar-static-top">
     <ul class="nav navbar-nav pull-left">
-        <li><a href="" id="goback"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a></li>
+        <li><a id="goback"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a></li>
         <li style="visibility:hidden"><text id="userNameText"th:text="${userName}"></text></li>
     </ul>
 </nav>
@@ -55,7 +55,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
                         <li th:each="category,iterInfo: ${categoryList}">
-                            <a class="category" th:id="|category${iterInfo.index}|" th:text="${category.categoryName}"></a>
+                            <a class="category" th:id="${category.categoryId}" th:text="${category.categoryName}"></a>
                         </li>
                     </ul>
                 </div><!-- /btn-group -->
