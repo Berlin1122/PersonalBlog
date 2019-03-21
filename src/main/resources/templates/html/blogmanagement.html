@@ -12,7 +12,6 @@
     <link th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet">
     <!-- 这里引用blogedit.css 是为了使用.category{}这个空样式，用于做类选择器，辅助实现类别删除-->
     <link th:href="@{/css/blogcss/blogedit.css}" rel="stylesheet">
-    <link th:href="@{/bootstrappaginator/css/bootstrap.css}" rel="stylesheet">
 
 </head>
 <body>
@@ -103,10 +102,12 @@
             </div>
         </div><!-- /.blog-sidebar -->
     </div>
-    <div  id="pagination">
-        <span id="spanCurrPage" hidden="hidden" th:text="${currPage}"></span>
-        <span id="spanTotalPage" hidden="hidden" th:text="${totalPage}"></span>
-    </div>
+    <nav aria-label="Page navigation">
+        <ul id="pagination">
+            <span id="spanCurrPage" hidden="hidden" th:text="${currPage}"></span>
+            <span id="spanTotalPage" hidden="hidden" th:text="${totalPage}"></span>
+        </ul>
+    </nav>
     <hr>
     <footer>
         <p>&copy; 2016 Company, Inc.</p>

@@ -18,6 +18,7 @@ $(function(){
         currentPage: currPage,
         totalPages: totalPages,
         numberOfPages:3,
+        bootstrapMajorVersion:3,
         size:"normal",
         alignment:"left",
 

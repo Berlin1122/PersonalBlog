@@ -11,7 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet">
-
+    <link th:href="@{/css/blogcss/common.css}" rel="stylesheet">
 
 </head>
 
@@ -23,12 +23,21 @@
 <div class="container">
     <!-- Example row of columns -->
     <div class="row">
-        <div class="col-md-6" th:each="article,iterInfo: ${articleList}">
+        <div class="col-md-6 blogIntroDiv" th:each="article,iterInfo: ${articleList}">
             <h4 th:text="${article.title}">Heading</h4>
             <p th:text="${article.briefIntro}">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
                 condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
                 euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default article" th:id="${article.articleId}" role="button">View details &raquo;</a></p>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><a class="btn btn-default article" th:id="${article.articleId}" role="button">View details &raquo;</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h4>
+                        <span class="label label-default" th:text="${#dates.format(article.lastEditTime,'yyyy-MM-dd')}" style="float: right">Info</span>
+                    </h4>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -39,6 +48,7 @@
             <span id="spanTotalPage" hidden="hidden" th:text="${totalPage}"></span>
             <span id="spanCategoryId" hidden="hidden" th:text="${categoryId}"></span>
             <span id="spanCategoryName" hidden="hidden" th:text="${categoryName}"></span>
+            <span id="spanTitle" hidden="hidden" th:text="${title}"></span>
         </ul>
     </nav>
 

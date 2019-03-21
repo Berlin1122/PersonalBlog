@@ -33,6 +33,7 @@ public class UserServiceTest {
     }
 
     @Test
+    @Ignore
     public void testQueryUserByName(){
         User login = new User();
         login.setUserName("Ber1122");
