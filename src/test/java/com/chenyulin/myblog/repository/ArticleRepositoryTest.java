@@ -90,6 +90,7 @@ public class ArticleRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testQueryArticleByCategoryId(){
         ArticleCategory category = new ArticleCategory();
         category.setCategoryId(4);
@@ -100,4 +101,32 @@ public class ArticleRepositoryTest {
         System.out.println(articleList.size());
 
     }
+
+    @Test
+    @Ignore
+    public void testQueryArticleByTitle(){
+        User u = new User();
+        u.setUserId(1);
+        Article article = new Article();
+        article.setTitle("测试");
+//        List<Article> articleList = repository.queryArticleByTitle(article,u,0,3);
+        int count = repository.queryCountByTitle(article,u);
+//        for (Article a:articleList) {
+//            System.out.println(a.getTitle());
+//        }
+//        assertEquals(3,articleList.size());
+        System.out.println("符合标题的文章数量："+count);
+    }
+
+    @Test
+    @Ignore
+    public void queryTopSixArticle(){
+        User user = new User();
+        user.setUserId(1);
+
+        List<Article> articleList = repository.queryTopSixArticleByUser(user);
+        System.out.println(articleList.size());
+
+    }
+
 }

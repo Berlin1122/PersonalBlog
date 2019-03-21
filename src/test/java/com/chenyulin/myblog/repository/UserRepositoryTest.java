@@ -30,6 +30,7 @@ public class UserRepositoryTest {
         assertEquals(1,row);
     }
     @Test
+    @Ignore
     public void testQueryUserByName(){
         User user = new User();
         user.setUserName("Ber1122");

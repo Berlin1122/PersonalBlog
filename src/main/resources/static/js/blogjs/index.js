@@ -4,6 +4,8 @@ $(function () {
     var blogDetailUrl = '/blog/detail/';
     var blogListUrl = '/blog/showblogbycategory/';
     var adminLoginUrl = '/blog/loginpage';
+    var blogSearchUrl = '/blog/searcharticlebytitle';
+    var blogTitle = '';
     $(".article").click(function (e) {
         articelId = parseInt(e.target.id);
         location.href = blogDetailUrl+articelId;
@@ -45,5 +47,32 @@ $(function () {
     $("#btnWriteBlog").click(function () {
         //alert("执行跳转登录界面");
         window.open(adminLoginUrl);
+    })
+    $("#btnSearch").click(function () {
+        blogTitle = ($("#inpTitle").val()).trim();
+        if(blogTitle != ''){
+            var formData = new FormData();
+            formData.append("title",blogTitle);
+            $.ajax({
+                type: 'POST',
+                url: blogSearchUrl,
+                async: false,
+                data: formData,
+                processData:false,
+                contentType:false,
+                cache:false,
+
+                success:function(data){
+                    if(data.success){
+                        location.href = data.url;
+                    }else{
+                        alert(data.msg)
+                    }
+                },
+                error:function (info) {
+                    alert("搜索进入error");
+                },
+            })
+        }
     })
 })

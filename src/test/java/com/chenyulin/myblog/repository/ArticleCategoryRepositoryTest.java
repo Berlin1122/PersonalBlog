@@ -60,6 +60,7 @@ public class ArticleCategoryRepositoryTest {
     }
 
     @Test
+    @Ignore
     public void testQueryCategoryByCategoryId(){
         ArticleCategory temp = new ArticleCategory();
         temp.setCategoryId(1);

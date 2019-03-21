@@ -3,7 +3,8 @@ $(function(){
     //获取用户的用户名，以此作为跳转编辑页的身份标识
     var userName = $("#userNameText").text();
     var addBlogUrl = '/blog/'+userName+'/add';
-    var blogManageUrl = '/blog/'+userName+'/manage';
+    //var blogManageUrl = '/blog/'+userName+'/manage';
+    var gobackToManageUrl = '/blog/gobackmanage';
     var blogTitle = '';
     var blogContent = '';
     var categoryId = '';
@@ -13,8 +14,33 @@ $(function(){
     var categoryId = 0;
     $("#goback").click(function () {
         //location.href = blogManageUrl;
-        history.back(-1);
+        var formData = new FormData();
+        formData.append("userName",userName);
         console.log("跳转管理页面");
+        $.ajax({
+            type: 'POST',
+            url: gobackToManageUrl,
+            async: false,
+            data: formData,
+            processData:false,
+            contentType:false,
+            success:function(data){
+                if(data.success){
+                    location.href = data.url;
+                }else {
+                    alert('跳转失败！');
+                }
+            },
+            error:function (info) {
+                console.log(info)
+                alert("进入error");
+            },
+            complete:function(data){
+                console.log(data);
+            }
+
+        });
+
     })
     $(".category").click(function (e) {
         console.log(e.target.id);

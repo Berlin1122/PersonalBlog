@@ -62,6 +62,7 @@ public class BlogManagementController {
         int totalPage = PageUtil.calTotalPages(count);
 
         if(userDB != null && userDB.getPwd().equals(user.getPwd())){
+            request.getSession().setAttribute("userName",userDB.getUserName());
             System.out.println("匹配");
             modelMap.put("success",true);
             modelMap.put("url","/blog/"+userName+"/manage/"+totalPage+"/1");
@@ -232,6 +233,26 @@ public class BlogManagementController {
         }else{
             modelMap.put("success",0);
         }
+        return modelMap;
+    }
+
+    /**
+     * 处理从编辑页面返回管理界面时刷新管理界面
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/gobackmanage",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> handleEditBack2Manage(HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String,Object>();
+        String userName = HttpServletRequestUtil.getString(request,"userName");
+        User user = new User();
+        user.setUserName(userName);
+        User userDB = userService.getUserByUserName(user);
+        int count = articleService.getArticleCountByUser(userDB);
+        int totalPage = PageUtil.calTotalPages(count);
+        modelMap.put("success",true);
+        modelMap.put("url","/blog/"+userName+"/manage/"+totalPage+"/1");
         return modelMap;
     }
 

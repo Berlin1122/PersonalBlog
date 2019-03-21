@@ -33,15 +33,18 @@ public class BlogDisplayController {
     @Resource
     private ArticleService articleService;
 
+    //访问主页之后获取user,也就是管理员自己,同时把这个用户下的文章类别从数据库取出来
     private static User currUser;
+    private static List<ArticleCategory> categoryList;
 
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(Model model){
         User user = new User();
-        user.setUserName("Ber1122");
-        currUser = userService.getUserByUserName(user);
-        List<Article> articleList = articleService.getArticleListByUser(currUser,1);
-        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
+        user.setUserName("Berlin1122");
+        this.currUser = userService.getUserByUserName(user);
+        List<Article> articleList = articleService.getTop6ArticleListByUser(this.currUser);
+
+        this.categoryList = categoryService.getArticleCategoryByUserId(currUser);
 
         System.out.println(articleList.size()+"=============");
         model.addAttribute("articleList",articleList);
@@ -56,6 +59,8 @@ public class BlogDisplayController {
 
         Article article = articleService.getArticleById(tempArticle);
         model.addAttribute("article",article);
+        model.addAttribute("categoryList",this.categoryList);
+        System.out.println("是否有user"+currUser.getUserName());
         return "html/blogdetail";
     }
 
@@ -110,4 +115,46 @@ public class BlogDisplayController {
         model.addAttribute("categoryName",categoryName);
         return "html/bloglist";
     }
+
+    @RequestMapping(value = "/searcharticlebytitle",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String,Object> handleSearchAticleByTitle(HttpServletRequest request){
+        Map<String,Object> modelMap = new HashMap<String,Object>();
+        String title = HttpServletRequestUtil.getString(request,"title");
+        Article article = new Article();
+        article.setTitle(title);
+
+        int count = articleService.getCountByTitle(article,this.currUser);
+        int totalPage = PageUtil.calTotalPages(count);
+        System.out.println("总的页面数量"+totalPage);
+        if(totalPage > 0){
+            modelMap.put("success",true);
+            modelMap.put("url","/blog/searcharticlebytitle/"+title+"/"+totalPage+"/1");
+        }else{
+            modelMap.put("success",false);
+            modelMap.put("msg","没有符合查询内容的文章");
+        }
+        return modelMap;
+    }
+
+    @RequestMapping(value = "/searcharticlebytitle/{title}/{totalpage}/{currpage}",method = RequestMethod.GET)
+    public String showBlogBySearch(@PathVariable("totalpage") String totalPage,
+                                   @PathVariable("title") String title,
+                                   @PathVariable("currpage") String currentPage,
+                                   Model model){
+        int page = Integer.parseInt(currentPage);
+        Article article = new Article();
+        article.setTitle(title);
+        String categoryName = "文章分类";
+        List<Article> articleList = articleService.getArticleListByTitle(this.currUser,article,page);
+        model.addAttribute("categoryList",this.categoryList);
+        model.addAttribute("articleList",articleList);
+        model.addAttribute("totalPage",totalPage);
+        model.addAttribute("currPage",currentPage);
+        model.addAttribute("title",title);
+        model.addAttribute("categoryName",categoryName);
+
+        return "html/bloglist";
+    }
+
 }

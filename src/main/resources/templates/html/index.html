@@ -12,6 +12,7 @@
     <!-- Bootstrap core CSS -->
     <link th:href="@{/bootstrap-3.3.7/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/blogcss/index.css}" rel="stylesheet">
+    <link th:href="@{/css/blogcss/common.css}" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -36,12 +37,23 @@
     <!-- Example row of columns -->
     <div class="row">
 
-        <div class="col-md-4" th:each="article,iterInfo: ${articleList}">
+        <div class="col-md-4 blogIntroDiv" th:each="article,iterInfo: ${articleList}">
             <h4 th:text="${article.title}">Heading</h4>
             <p th:text="${article.briefIntro}">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
                 condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
                 euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default article" th:id="${article.articleId}" role="button">View details &raquo;</a></p>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <p><a class="btn btn-default article" th:id="${article.articleId}" role="button">View details &raquo;</a></p>
+                </div>
+                <div class="col-sm-6">
+                    <h4>
+                        <span class="label label-default" th:text="${#dates.format(article.lastEditTime,'yyyy-MM-dd')}" style="float: right">Info</span>
+                    </h4>
+                </div>
+            </div>
+
         </div>
 
     </div>
