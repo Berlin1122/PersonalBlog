@@ -8,6 +8,9 @@ import com.chenyulin.myblog.service.ArticleService;
 import com.chenyulin.myblog.service.UserService;
 import com.chenyulin.myblog.utils.HttpServletRequestUtil;
 import com.chenyulin.myblog.utils.PageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/blog")
 public class BlogDisplayController {
+
     @Resource
     private UserService userService;
 
@@ -33,6 +37,11 @@ public class BlogDisplayController {
     @Resource
     private ArticleService articleService;
 
+    @Value("${currentUser.userName}")
+    private String userName;
+
+    private Logger logger = LoggerFactory.getLogger(BlogDisplayController.class);
+
     //访问主页之后获取user,也就是管理员自己,同时把这个用户下的文章类别从数据库取出来
     private static User currUser;
     private static List<ArticleCategory> categoryList;
@@ -40,13 +49,12 @@ public class BlogDisplayController {
     @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(Model model){
         User user = new User();
-        user.setUserName("Berlin1122");
+        user.setUserName(this.userName);
         this.currUser = userService.getUserByUserName(user);
         List<Article> articleList = articleService.getTop6ArticleListByUser(this.currUser);
-
         this.categoryList = categoryService.getArticleCategoryByUserId(currUser);
 
-        System.out.println(articleList.size()+"=============");
+        logger.info("主页文章数量:"+articleList.size());
         model.addAttribute("articleList",articleList);
         model.addAttribute("categoryList",categoryList);
         return "html/index";
@@ -60,7 +68,6 @@ public class BlogDisplayController {
         Article article = articleService.getArticleById(tempArticle);
         model.addAttribute("article",article);
         model.addAttribute("categoryList",this.categoryList);
-        System.out.println("是否有user"+currUser.getUserName());
         return "html/blogdetail";
     }
 
