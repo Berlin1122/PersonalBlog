@@ -10,6 +10,8 @@ import com.chenyulin.myblog.utils.HttpServletRequestUtil;
 import com.chenyulin.myblog.utils.ImageUtil;
 import com.chenyulin.myblog.utils.PageUtil;
 import com.chenyulin.myblog.utils.PathUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,8 @@ public class BlogManagementController {
     @Resource
     private ArticleService articleService;
 
+    private Logger logger = LoggerFactory.getLogger(BlogManagementController.class);
+
     @RequestMapping(value = "/loginpage",method = RequestMethod.GET)
     public String userLogin(@ModelAttribute(value="user")User user){
         return "html/adminlogin";
@@ -51,23 +55,22 @@ public class BlogManagementController {
         Map<String,Object> modelMap = new HashMap<String,Object>();
         String userName = HttpServletRequestUtil.getString(request,"userName");
         String pwd = HttpServletRequestUtil.getString(request,"pwd");
-        System.out.println("userName"+userName);
-        System.out.println("pwd"+pwd);
+        logger.info("获取前台输入的用户名为:"+userName);
+        logger.info("获取前台输入的用户密码为:"+pwd);
+
         User user = new User();
         user.setUserName(userName);
         user.setPwd(pwd);
         User userDB = userService.getUserByUserName(user);
-
         int count = articleService.getArticleCountByUser(userDB);
         int totalPage = PageUtil.calTotalPages(count);
-
         if(userDB != null && userDB.getPwd().equals(user.getPwd())){
             request.getSession().setAttribute("userName",userDB.getUserName());
-            System.out.println("匹配");
+            logger.info("用户名与密码匹配");
             modelMap.put("success",true);
             modelMap.put("url","/blog/"+userName+"/manage/"+totalPage+"/1");
         }else{
-            System.out.println("不匹配");
+            logger.info("用户名与密码不匹配");
             modelMap.put("success",false);
         }
         return modelMap;
@@ -103,9 +106,7 @@ public class BlogManagementController {
 
         User currUser = userService.getUserByUserName(user);
         List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
-        for (ArticleCategory category:categoryList) {
-            System.out.println(category.getCategoryName());
-        }
+
         model.addAttribute("categoryList",categoryList);
 
 
@@ -224,7 +225,6 @@ public class BlogManagementController {
                                          @RequestParam(value = "editormd-image-file", required = true)
                                                  MultipartFile file)throws Exception{
         Map<String,Object> modelMap = new HashMap<String,Object>();
-
         String basePath = PathUtil.getImgBasePath();
         String imageFileName = ImageUtil.saveToLocal(file,basePath);//保存成功后返回实际存储的物理地址
         if(imageFileName != null){
