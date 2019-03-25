@@ -23,6 +23,7 @@ A personal blog using SpringBoot
 - 分页
 - 图片上传
 - 图片压缩
+- 模糊搜索
 
 将于近期把整个系统从前端到后端的搭建过程详细记录下来，欢迎查看，也欢迎大家提出宝贵意见。
 ### contact
