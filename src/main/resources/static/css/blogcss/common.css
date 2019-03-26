@@ -1,5 +1,11 @@
 .blogIntroDiv {
     box-shadow: 1px 1px 5px #888888;
-    padding: 3px;
-    margin-top: 5px;
+    margin: 2px;
+
+}
+.blogIntroDiv h3{
+    padding: 5px;
+}
+.blogIntroDiv p{
+    padding: 5px;
 }
