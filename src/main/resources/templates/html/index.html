@@ -28,7 +28,6 @@
 <div class="jumbotron">
     <div class="container">
         <h1>Hello, world!</h1>
-        <p>务实、谦逊、勤勉</p>
         <p>向优秀的人看齐，努力提升自己的能力。</p>
         <p>多分享，多交流。Life is fantastic！</p>
     </div>
@@ -37,7 +36,7 @@
     <!-- Example row of columns -->
     <div class="row">
 
-        <div class="col-md-4" th:each="article,iterInfo: ${articleList}">
+        <div class="col-md-4 blogcard" th:each="article,iterInfo: ${articleList}">
             <div class="blogIntroDiv">
                 <h3 th:text="${article.title}">Heading</h3>
                 <p th:text="${article.briefIntro}">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
@@ -63,7 +62,7 @@
     <hr>
 
     <footer>
-        <p>Copyright©2019 BerlinEleanor chenyulin.xyz All Rights Reserved.</p>
+        <p>Copyright©2019 chenyulin.xyz All Rights Reserved.</p>
     </footer>
 </div> <!-- /container -->
 
