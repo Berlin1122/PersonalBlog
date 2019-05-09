@@ -13,29 +13,29 @@ public class ArticleCategoryService {
     @Resource
     private ArticleCategoryRepository repository;
 
-    public List<ArticleCategory> getArticleCategoryByUserId(User user){
+    public List<ArticleCategory> getArticleCategoryByUserId(User user) {
         return repository.queryArticleCategoryByUserId(user);
     }
 
-    public boolean deleteCategory(ArticleCategory category){
+    public boolean deleteCategory(ArticleCategory category) {
         int row = repository.deleteCategory(category);
-        if(row <= 0){
+        if (row <= 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
-    public boolean addCategory(ArticleCategory category){
+    public boolean addCategory(ArticleCategory category) {
         int row = repository.insertArticleCategory(category);
-        if(row <= 0){
+        if (row <= 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
-    public ArticleCategory getCategoryByCategoryId(ArticleCategory category){
+    public ArticleCategory getCategoryByCategoryId(ArticleCategory category) {
         return repository.queryCategoryByCategoryId(category);
     }
 }

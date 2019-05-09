@@ -12,12 +12,12 @@ $(function () {
     var options = {
         currentPage: currPage,
         totalPages: totalPages,
-        numberOfPages:3,
-        bootstrapMajorVersion:3,
-        size:"normal",
-        alignment:"center",
+        numberOfPages: 3,
+        bootstrapMajorVersion: 3,
+        size: "normal",
+        alignment: "center",
 
-        onPageClicked:function (e,originalEvent,type,page) {
+        onPageClicked: function (e, originalEvent, type, page) {
             getDataByPage(page);
         }
     }
@@ -25,10 +25,10 @@ $(function () {
 
     function getDataByPage(currPage) {
         //当请求来自分类查看时(categoryId = 0)
-        if(isNaN(categoryId)){
-            location.href=blogSearchUrl+title+'/'+totalPages+'/'+currPage;
-        }else {
-            location.href=showBlogByCategoryUrl+totalPages+'/'+currPage+'/'+categoryId;
+        if (isNaN(categoryId)) {
+            location.href = blogSearchUrl + title + '/' + totalPages + '/' + currPage;
+        } else {
+            location.href = showBlogByCategoryUrl + totalPages + '/' + currPage + '/' + categoryId;
         }
     }
 })

@@ -21,17 +21,18 @@ public class UserRepositoryTest {
 
     @Ignore
     @Test
-    public void testInsertUser(){
+    public void testInsertUser() {
         User user = new User();
         user.setUserName("test");
         user.setPwd("test");
 
         int row = repository.insertUser(user);
-        assertEquals(1,row);
+        assertEquals(1, row);
     }
+
     @Test
     @Ignore
-    public void testQueryUserByName(){
+    public void testQueryUserByName() {
         User user = new User();
         user.setUserName("Ber1122");
         User dbUser = repository.queryUserByUserName(user);

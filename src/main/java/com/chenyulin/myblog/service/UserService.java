@@ -12,11 +12,11 @@ public class UserService {
     @Resource
     private UserRepository repository;
 
-    public int addUser(User user){
+    public int addUser(User user) {
         return repository.insertUser(user);
     }
 
-    public User getUserByUserName(User user){
+    public User getUserByUserName(User user) {
         return repository.queryUserByUserName(user);
     }
 

@@ -36,7 +36,9 @@
     <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
             <li><a id="goback"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span></a></li>
-            <li style="visibility:hidden"><text id="userNameText"th:text="${userName}"></text></li>
+            <li style="visibility:hidden">
+                <text id="userNameText" th:text="${userName}"></text>
+            </li>
         </ul>
     </div>
 
@@ -51,7 +53,8 @@
             <div class="input-group">
                 <input id="blogTitle" type="text" class="form-control" aria-label="..." placeholder="请输入标题...">
                 <div class="input-group-btn">
-                    <button id="btnCategory" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                    <button id="btnCategory" type="button" class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown"
                             aria-haspopup="true"
                             aria-expanded="false">文章分类<span class="caret"></span>
                     </button>

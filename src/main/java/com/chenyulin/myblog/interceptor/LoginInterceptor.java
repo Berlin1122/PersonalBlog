@@ -11,17 +11,18 @@ import javax.servlet.http.HttpSession;
 
 public class LoginInterceptor implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         logger.info("进入登录拦截器.....");
         HttpSession session = request.getSession(true);
-        String userName = (String)session.getAttribute("userName");
+        String userName = (String) session.getAttribute("userName");
 
-        if(session.getAttribute("userName") == null){
+        if (session.getAttribute("userName") == null) {
             logger.info("拦截成功");
-            response.sendRedirect(request.getContextPath()+"/blog/loginpage");
+            response.sendRedirect(request.getContextPath() + "/blog/loginpage");
             return false;
-        }else{
+        } else {
             session.setAttribute("userName", session.getAttribute("userName"));
             return true;
         }
