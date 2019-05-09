@@ -20,7 +20,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-8 blog-main">
-            <div class="blog-post" th:object="${article}" >
+            <div class="blog-post" th:object="${article}">
                 <h3 class="blog-post-title" th:text="*{title}">Sample blog post</h3>
                 <hr>
                 <div th:utext="*{content}"></div>
@@ -46,8 +46,12 @@
                 <h4>Elsewhere</h4>
                 <ol class="list-unstyled">
                     <li><a href="https://github.com/Berlin1122/PersonalBlog">GitHub</a></li>
-                    <li><text>邮箱：coderchenyulin@163.com</text></li>
-                    <li><text>新浪微博：陈玉林cylgz</text></li>
+                    <li>
+                        <text>邮箱：coderchenyulin@163.com</text>
+                    </li>
+                    <li>
+                        <text>新浪微博：陈玉林cylgz</text>
+                    </li>
                 </ol>
             </div>
         </div><!-- /.blog-sidebar -->

@@ -9,10 +9,10 @@ public interface UserRepository {
     public int insertUser(User user);
 
     @Select("select user_id,user_name,pwd from tb_user where user_name=#{userName}")
-    @Results(id="userResult",value = {
-            @Result(id=true,column = "user_id",property = "userId"),
-            @Result(column = "user_name",property = "userName"),
-            @Result(column = "pwd",property = "pwd")
+    @Results(id = "userResult", value = {
+            @Result(id = true, column = "user_id", property = "userId"),
+            @Result(column = "user_name", property = "userName"),
+            @Result(column = "pwd", property = "pwd")
     })
     public User queryUserByUserName(final User user);
 

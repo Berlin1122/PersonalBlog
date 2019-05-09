@@ -8,35 +8,35 @@ $(function () {
     var blogTitle = '';
     $(".article").click(function (e) {
         articelId = parseInt(e.target.id);
-        location.href = blogDetailUrl+articelId;
+        location.href = blogDetailUrl + articelId;
     })
     //获取要的类别名和类别id
     $(".category").click(function (e) {
         console.log(e.target.id);
         categoryId = parseInt(e.target.id);
         var formData = new FormData();
-        formData.append("categoryId",categoryId);
+        formData.append("categoryId", categoryId);
         $.ajax({
             type: 'POST',
             url: blogListUrl,
             async: false,
             data: formData,
-            processData:false,
-            contentType:false,
-            cache:false,
-            success:function(data){
-                if(data.success == true){
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+                if (data.success == true) {
                     console.log('进入响应成功方法');
-                    location.href = data.url+'/'+categoryId;
-                }else {
+                    location.href = data.url + '/' + categoryId;
+                } else {
                     alert(data.msg);
                 }
             },
-            error:function (info) {
+            error: function (info) {
                 //console.log(info)
                 alert("进入error");
             },
-            complete:function(data){
+            complete: function (data) {
                 console.log(data);
             }
         });
@@ -50,26 +50,26 @@ $(function () {
     })
     $("#btnSearch").click(function () {
         blogTitle = ($("#inpTitle").val()).trim();
-        if(blogTitle != ''){
+        if (blogTitle != '') {
             var formData = new FormData();
-            formData.append("title",blogTitle);
+            formData.append("title", blogTitle);
             $.ajax({
                 type: 'POST',
                 url: blogSearchUrl,
                 async: false,
                 data: formData,
-                processData:false,
-                contentType:false,
-                cache:false,
+                processData: false,
+                contentType: false,
+                cache: false,
 
-                success:function(data){
-                    if(data.success){
+                success: function (data) {
+                    if (data.success) {
                         location.href = data.url;
-                    }else{
+                    } else {
                         alert(data.msg)
                     }
                 },
-                error:function (info) {
+                error: function (info) {
                     alert("搜索进入error");
                 },
             })

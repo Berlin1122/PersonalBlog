@@ -46,41 +46,43 @@ public class BlogDisplayController {
     private static User currUser;
     private static List<ArticleCategory> categoryList;
 
-    @RequestMapping(value = "/index",method = RequestMethod.GET)
-    public String index(Model model){
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    public String index(Model model) {
         User user = new User();
         user.setUserName(this.userName);
         this.currUser = userService.getUserByUserName(user);
         List<Article> articleList = articleService.getTop6ArticleListByUser(this.currUser);
         this.categoryList = categoryService.getArticleCategoryByUserId(currUser);
 
-        logger.info("主页文章数量:"+articleList.size());
-        model.addAttribute("articleList",articleList);
-        model.addAttribute("categoryList",categoryList);
+        logger.info("主页文章数量:" + articleList.size());
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("categoryList", categoryList);
         return "html/index";
     }
-    @RequestMapping(value = "/detail/{blogid}",method = RequestMethod.GET)
-    public String showBlogDetail(@PathVariable("blogid")String blogId,Model model){
+
+    @RequestMapping(value = "/detail/{blogid}", method = RequestMethod.GET)
+    public String showBlogDetail(@PathVariable("blogid") String blogId, Model model) {
         int blogIdInt = Integer.parseInt(blogId);
         Article tempArticle = new Article();
         tempArticle.setArticleId(blogIdInt);
 
         Article article = articleService.getArticleById(tempArticle);
-        model.addAttribute("article",article);
-        model.addAttribute("categoryList",this.categoryList);
+        model.addAttribute("article", article);
+        model.addAttribute("categoryList", this.categoryList);
         return "html/blogdetail";
     }
 
     /**
      * 处理点击主页文章分类的点击跳转,计算点击的类别下的文章数量,返回总的页数(页数拼接到点击后跳转的实际url中)
+     *
      * @param request
      * @return
      */
-    @RequestMapping(value = "/showblogbycategory",method = RequestMethod.POST)
+    @RequestMapping(value = "/showblogbycategory", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> handleBlogShowByCategory(HttpServletRequest request){
-        Map<String,Object> modelMap = new HashMap<String,Object>();
-        int categoryId = HttpServletRequestUtil.getInt(request,"categoryId");
+    public Map<String, Object> handleBlogShowByCategory(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        int categoryId = HttpServletRequestUtil.getInt(request, "categoryId");
         Article article = new Article();
         ArticleCategory category = new ArticleCategory();
         category.setCategoryId(categoryId);
@@ -88,21 +90,21 @@ public class BlogDisplayController {
 
         int count = articleService.getArticleCountByCategory(article);
         int totalPage = PageUtil.calTotalPages(count);
-        if(totalPage == 0){
-            modelMap.put("msg","该类别没有文章");
-            modelMap.put("success",false);
-        }else{
-            modelMap.put("url","/blog/showblogbycategory/"+totalPage+"/1");
-            modelMap.put("success",true);
+        if (totalPage == 0) {
+            modelMap.put("msg", "该类别没有文章");
+            modelMap.put("success", false);
+        } else {
+            modelMap.put("url", "/blog/showblogbycategory/" + totalPage + "/1");
+            modelMap.put("success", true);
         }
         return modelMap;
     }
 
-    @RequestMapping(value = "/showblogbycategory/{totalpage}/{currpage}/{categoryId}",method = RequestMethod.GET)
-    public String showBlogByCategory( @PathVariable("totalpage") String totalPage,
-                                      @PathVariable("currpage") String currentPage,
-                                      @PathVariable("categoryId") String categoryId,
-                                      Model model){
+    @RequestMapping(value = "/showblogbycategory/{totalpage}/{currpage}/{categoryId}", method = RequestMethod.GET)
+    public String showBlogByCategory(@PathVariable("totalpage") String totalPage,
+                                     @PathVariable("currpage") String currentPage,
+                                     @PathVariable("categoryId") String categoryId,
+                                     Model model) {
         int page = Integer.parseInt(currentPage);
         List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
         Article article = new Article();
@@ -110,56 +112,56 @@ public class BlogDisplayController {
         int currCategoryId = Integer.parseInt(categoryId);
         category.setCategoryId(currCategoryId);
         article.setCategory(category);
-        List<Article> articleList = articleService.getArticleListByCategoryId(article,page);
+        List<Article> articleList = articleService.getArticleListByCategoryId(article, page);
         ArticleCategory currCategory = categoryService.getCategoryByCategoryId(category);
 
         String categoryName = currCategory.getCategoryName();
-        model.addAttribute("categoryList",categoryList);
-        model.addAttribute("articleList",articleList);
-        model.addAttribute("totalPage",totalPage);
-        model.addAttribute("currPage",currentPage);
-        model.addAttribute("categoryId",categoryId);
-        model.addAttribute("categoryName",categoryName);
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("currPage", currentPage);
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("categoryName", categoryName);
         return "html/bloglist";
     }
 
-    @RequestMapping(value = "/searcharticlebytitle",method = RequestMethod.POST)
+    @RequestMapping(value = "/searcharticlebytitle", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> handleSearchAticleByTitle(HttpServletRequest request){
-        Map<String,Object> modelMap = new HashMap<String,Object>();
-        String title = HttpServletRequestUtil.getString(request,"title");
+    public Map<String, Object> handleSearchAticleByTitle(HttpServletRequest request) {
+        Map<String, Object> modelMap = new HashMap<String, Object>();
+        String title = HttpServletRequestUtil.getString(request, "title");
         Article article = new Article();
         article.setTitle(title);
 
-        int count = articleService.getCountByTitle(article,this.currUser);
+        int count = articleService.getCountByTitle(article, this.currUser);
         int totalPage = PageUtil.calTotalPages(count);
-        System.out.println("总的页面数量"+totalPage);
-        if(totalPage > 0){
-            modelMap.put("success",true);
-            modelMap.put("url","/blog/searcharticlebytitle/"+title+"/"+totalPage+"/1");
-        }else{
-            modelMap.put("success",false);
-            modelMap.put("msg","没有符合查询内容的文章");
+        System.out.println("总的页面数量" + totalPage);
+        if (totalPage > 0) {
+            modelMap.put("success", true);
+            modelMap.put("url", "/blog/searcharticlebytitle/" + title + "/" + totalPage + "/1");
+        } else {
+            modelMap.put("success", false);
+            modelMap.put("msg", "没有符合查询内容的文章");
         }
         return modelMap;
     }
 
-    @RequestMapping(value = "/searcharticlebytitle/{title}/{totalpage}/{currpage}",method = RequestMethod.GET)
+    @RequestMapping(value = "/searcharticlebytitle/{title}/{totalpage}/{currpage}", method = RequestMethod.GET)
     public String showBlogBySearch(@PathVariable("totalpage") String totalPage,
                                    @PathVariable("title") String title,
                                    @PathVariable("currpage") String currentPage,
-                                   Model model){
+                                   Model model) {
         int page = Integer.parseInt(currentPage);
         Article article = new Article();
         article.setTitle(title);
         String categoryName = "文章分类";
-        List<Article> articleList = articleService.getArticleListByTitle(this.currUser,article,page);
-        model.addAttribute("categoryList",this.categoryList);
-        model.addAttribute("articleList",articleList);
-        model.addAttribute("totalPage",totalPage);
-        model.addAttribute("currPage",currentPage);
-        model.addAttribute("title",title);
-        model.addAttribute("categoryName",categoryName);
+        List<Article> articleList = articleService.getArticleListByTitle(this.currUser, article, page);
+        model.addAttribute("categoryList", this.categoryList);
+        model.addAttribute("articleList", articleList);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("currPage", currentPage);
+        model.addAttribute("title", title);
+        model.addAttribute("categoryName", categoryName);
 
         return "html/bloglist";
     }
