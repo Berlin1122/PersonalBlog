@@ -29,7 +29,7 @@ A personal blog using SpringBoot
 ### contact
 - coderchenyulin@163.com
 ### 项目地址
-[chenyulin.xyz:8080/](http://chenyulin.xyz:8080/ "陈玉林专利")
+[chenyulin.xyz:8080/](http://chenyulin.xyz:8080/ "陈玉林")
 
 ### 更新
 之前的版本出现一个问题，上传文件时，应用程序（准确的说是程序里内嵌的tomcat）会在云主机上创建一个临时文件夹用来做文件（图片资源）的中转站，然而，这个自动创建的文件夹的存活期限是10天，自项目部署10天后，由于这个文件夹的自动删除，导致一些相关的读写操作发生异常。最明显的体验就是首页的文章类别点击不能正常跳转。
