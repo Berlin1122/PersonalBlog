@@ -31,7 +31,7 @@ public class ArticleCategoryRepositoryTest {
         User user = new User();
         user.setUserName("Ber1122");
         user.setUserId(1);
-        List<ArticleCategory> categoryList = repository.queryArticleCategoryByUserId(user);
+        List<ArticleCategory> categoryList = repository.queryArticleCategoryByUserId(user.getUserId());
         for (ArticleCategory category : categoryList) {
             System.out.println(category.getCategoryName());
         }
@@ -63,9 +63,7 @@ public class ArticleCategoryRepositoryTest {
     @Test
     @Ignore
     public void testQueryCategoryByCategoryId() {
-        ArticleCategory temp = new ArticleCategory();
-        temp.setCategoryId(1);
-        ArticleCategory category = repository.queryCategoryByCategoryId(temp);
+        ArticleCategory category = repository.queryCategoryByCategoryId(2);
         System.out.println(category.getCategoryName());
     }
 }

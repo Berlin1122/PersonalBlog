@@ -58,13 +58,10 @@ public class BlogManagementController {
         logger.info("获取前台输入的用户名为:" + userName);
         logger.info("获取前台输入的用户密码为:" + pwd);
 
-        User user = new User();
-        user.setUserName(userName);
-        user.setPwd(pwd);
-        User userDB = userService.getUserByUserName(user);
-        int count = articleService.getArticleCountByUser(userDB);
+        User userDB = userService.getUserByUserName(userName);
+        int count = articleService.getArticleCountByUser(userDB.getUserId());
         int totalPage = PageUtil.calTotalPages(count);
-        if (userDB != null && userDB.getPwd().equals(user.getPwd())) {
+        if (userDB != null && userDB.getPwd().equals(pwd)) {
             request.getSession().setAttribute("userName", userDB.getUserName());
             logger.info("用户名与密码匹配");
             modelMap.put("success", true);
@@ -86,13 +83,11 @@ public class BlogManagementController {
         model.addAttribute("currPage", currentPage);
         model.addAttribute("totalPage", totalPage);
 
-        User user = new User();
-        user.setUserName(userName);
-        User currUser = userService.getUserByUserName(user);
+        User currUser = userService.getUserByUserName(userName);
         int page = Integer.parseInt(currentPage);
-        List<Article> articleList = articleService.getArticleListByUser(currUser, page);
+        List<Article> articleList = articleService.getArticleListByUser(currUser.getUserId(), page);
 
-        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
+        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser.getUserId());
         model.addAttribute("categoryList", categoryList);
         model.addAttribute("articleList", articleList);
         return "html/blogmanagement";
@@ -101,15 +96,11 @@ public class BlogManagementController {
     @RequestMapping(value = "/{username}/edit", method = RequestMethod.GET)
     public String writeBlog(@PathVariable("username") String userName, Model model) {
         model.addAttribute("userName", userName);
-        User user = new User();
-        user.setUserName(userName);
 
-        User currUser = userService.getUserByUserName(user);
-        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
+        User currUser = userService.getUserByUserName(userName);
+        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser.getUserId());
 
         model.addAttribute("categoryList", categoryList);
-
-
         return "html/blogedit";
     }
 
@@ -119,9 +110,8 @@ public class BlogManagementController {
         //TODO 编写业务实体类,枚举
         Map<String, Object> modelMap = new HashMap<String, Object>();
         Article article = new Article();
-        User loginUser = new User();
-        loginUser.setUserName(userName);
-        User user = userService.getUserByUserName(loginUser);
+
+        User user = userService.getUserByUserName(userName);
         String content = HttpServletRequestUtil.getString(request, "content");
         String briefIntro = HttpServletRequestUtil.getString(request, "briefIntro");
         String title = HttpServletRequestUtil.getString(request, "title");
@@ -176,9 +166,8 @@ public class BlogManagementController {
     @ResponseBody
     public Map<String, Object> addCategory(@PathVariable("username") String userName, HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
-        User user = new User();
-        user.setUserName(userName);
-        User currUser = userService.getUserByUserName(user);
+
+        User currUser = userService.getUserByUserName(userName);
         String categoryName = HttpServletRequestUtil.getString(request, "categoryName");
         ArticleCategory category = new ArticleCategory();
         category.setUser(currUser);
@@ -199,10 +188,8 @@ public class BlogManagementController {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         int articleId = HttpServletRequestUtil.getInt(request, "articleId");
         System.out.println(articleId + "=========article");
-        Article article = new Article();
-        article.setArticleId(articleId);
 
-        boolean isDeleted = articleService.removeArticleById(article);
+        boolean isDeleted = articleService.removeArticleById(articleId);
         if (isDeleted) {
             modelMap.put("success", true);
         } else {
@@ -248,10 +235,9 @@ public class BlogManagementController {
     public Map<String, Object> handleEditBack2Manage(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         String userName = HttpServletRequestUtil.getString(request, "userName");
-        User user = new User();
-        user.setUserName(userName);
-        User userDB = userService.getUserByUserName(user);
-        int count = articleService.getArticleCountByUser(userDB);
+
+        User userDB = userService.getUserByUserName(userName);
+        int count = articleService.getArticleCountByUser(userDB.getUserId());
         int totalPage = PageUtil.calTotalPages(count);
         modelMap.put("success", true);
         modelMap.put("url", "/blog/" + userName + "/manage/" + totalPage + "/1");

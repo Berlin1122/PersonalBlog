@@ -48,11 +48,10 @@ public class BlogDisplayController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Model model) {
-        User user = new User();
-        user.setUserName(this.userName);
-        this.currUser = userService.getUserByUserName(user);
-        List<Article> articleList = articleService.getTop6ArticleListByUser(this.currUser);
-        this.categoryList = categoryService.getArticleCategoryByUserId(currUser);
+
+        currUser = userService.getUserByUserName(this.userName);
+        List<Article> articleList = articleService.getTop6ArticleListByUser(currUser.getUserId());
+        categoryList = categoryService.getArticleCategoryByUserId(currUser.getUserId());
 
         logger.info("主页文章数量:" + articleList.size());
         model.addAttribute("articleList", articleList);
@@ -63,12 +62,10 @@ public class BlogDisplayController {
     @RequestMapping(value = "/detail/{blogid}", method = RequestMethod.GET)
     public String showBlogDetail(@PathVariable("blogid") String blogId, Model model) {
         int blogIdInt = Integer.parseInt(blogId);
-        Article tempArticle = new Article();
-        tempArticle.setArticleId(blogIdInt);
 
-        Article article = articleService.getArticleById(tempArticle);
+        Article article = articleService.getArticleById(blogIdInt);
         model.addAttribute("article", article);
-        model.addAttribute("categoryList", this.categoryList);
+        model.addAttribute("categoryList", categoryList);
         return "html/blogdetail";
     }
 
@@ -83,12 +80,8 @@ public class BlogDisplayController {
     public Map<String, Object> handleBlogShowByCategory(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         int categoryId = HttpServletRequestUtil.getInt(request, "categoryId");
-        Article article = new Article();
-        ArticleCategory category = new ArticleCategory();
-        category.setCategoryId(categoryId);
-        article.setCategory(category);
 
-        int count = articleService.getArticleCountByCategory(article);
+        int count = articleService.getArticleCountByCategory(categoryId);
         int totalPage = PageUtil.calTotalPages(count);
         if (totalPage == 0) {
             modelMap.put("msg", "该类别没有文章");
@@ -106,14 +99,12 @@ public class BlogDisplayController {
                                      @PathVariable("categoryId") String categoryId,
                                      Model model) {
         int page = Integer.parseInt(currentPage);
-        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser);
-        Article article = new Article();
-        ArticleCategory category = new ArticleCategory();
+        List<ArticleCategory> categoryList = categoryService.getArticleCategoryByUserId(currUser.getUserId());
+
         int currCategoryId = Integer.parseInt(categoryId);
-        category.setCategoryId(currCategoryId);
-        article.setCategory(category);
-        List<Article> articleList = articleService.getArticleListByCategoryId(article, page);
-        ArticleCategory currCategory = categoryService.getCategoryByCategoryId(category);
+
+        List<Article> articleList = articleService.getArticleListByCategoryId(currCategoryId, page);
+        ArticleCategory currCategory = categoryService.getCategoryByCategoryId(currCategoryId);
 
         String categoryName = currCategory.getCategoryName();
         model.addAttribute("categoryList", categoryList);
@@ -130,10 +121,9 @@ public class BlogDisplayController {
     public Map<String, Object> handleSearchAticleByTitle(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         String title = HttpServletRequestUtil.getString(request, "title");
-        Article article = new Article();
-        article.setTitle(title);
-
-        int count = articleService.getCountByTitle(article, this.currUser);
+        logger.info("input title is "+title);
+        logger.info("user id "+currUser.getUserId());
+        int count = articleService.getCountByTitle(title, currUser.getUserId());
         int totalPage = PageUtil.calTotalPages(count);
         System.out.println("总的页面数量" + totalPage);
         if (totalPage > 0) {
@@ -152,10 +142,8 @@ public class BlogDisplayController {
                                    @PathVariable("currpage") String currentPage,
                                    Model model) {
         int page = Integer.parseInt(currentPage);
-        Article article = new Article();
-        article.setTitle(title);
         String categoryName = "文章分类";
-        List<Article> articleList = articleService.getArticleListByTitle(this.currUser, article, page);
+        List<Article> articleList = articleService.getArticleListByTitle(currUser.getUserId(), title, page);
         model.addAttribute("categoryList", this.categoryList);
         model.addAttribute("articleList", articleList);
         model.addAttribute("totalPage", totalPage);

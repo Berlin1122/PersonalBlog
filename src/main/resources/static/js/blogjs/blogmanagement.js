@@ -13,6 +13,7 @@ $(function () {
     var currPage = parseInt($("#spanCurrPage").text());
     var blogManageUrl = '/blog/' + userName + '/manage/' + totalPages;
     var deleteArticleUrl = '/blog/' + userName + '/deletearticle';
+    var reeditArticleUrl = '/blog/' + userName + '/reeditarticle';
     //分页参数设置
     var options = {
         currentPage: currPage,
@@ -39,10 +40,12 @@ $(function () {
         $("#btnCategory").text(categoryName);
 
     })
-    $(".article").click(function (e) {
+    $(".article_delete").click(function (e) {
         //获取要删除（更改）的文章id
         articleId = e.target.id;
+        console.log("click delete")
         deleteArticle(articleId);
+
     })
     $("#btnDeleteCategory").click(function () {
         if (categoryId == 0) {
