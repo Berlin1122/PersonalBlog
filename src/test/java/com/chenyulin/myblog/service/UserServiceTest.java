@@ -24,10 +24,7 @@ public class UserServiceTest {
     @Ignore
     @Test
     public void testQueryUserById() {
-        User login = new User();
-        login.setUserId(1);
-        login.setUserName("ccc");
-        User user = service.getUserByUserName(login);
+        User user = service.getUserByUserName("ccc");
         System.out.println("*****" + user.getPwd());
         System.out.println("*****" + user.getUserId());
         System.out.println("*****" + user.getUserName());
@@ -36,9 +33,8 @@ public class UserServiceTest {
     @Test
     @Ignore
     public void testQueryUserByName() {
-        User login = new User();
-        login.setUserName("Ber1122");
-        User user = service.getUserByUserName(login);
+
+        User user = service.getUserByUserName("Ber1122");
         System.out.println("*****" + user.getPwd());
         System.out.println("*****" + user.getUserId());
         System.out.println("*****" + user.getUserName());

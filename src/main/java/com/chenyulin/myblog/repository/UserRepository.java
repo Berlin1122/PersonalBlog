@@ -14,11 +14,11 @@ public interface UserRepository {
             @Result(column = "user_name", property = "userName"),
             @Result(column = "pwd", property = "pwd")
     })
-    public User queryUserByUserName(final User user);
+    public User queryUserByUserName(final String userName);
 
 
     @Select("select * from tb_user where user_id=#{userId}")
     @ResultMap("userResult")
-    public User queryUserById(final User user);
+    public User queryUserById(final int userId);
 
 }

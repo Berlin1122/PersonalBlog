@@ -50,19 +50,14 @@ public class ArticleRepositoryTest {
     @Test
     @Ignore
     public void testQueryArticleCount() {
-        User u = new User();
-        u.setUserId(1);
-
-        int row = repository.queryArticleCountByUser(u);
+        int row = repository.queryArticleCountByUser(1);
         System.out.println(row);
     }
 
     @Test
     @Ignore
     public void testQueryArticleByPage() {
-        User u = new User();
-        u.setUserId(1);
-        List<Article> list = repository.queryArticleByPage(u, 0, 4);
+        List<Article> list = repository.queryArticleByPage(1, 0, 4);
         System.out.println("listSize" + list.size());
         for (Article temp : list) {
             System.out.println(temp.getTitle());
@@ -72,19 +67,14 @@ public class ArticleRepositoryTest {
     @Test
     @Ignore
     public void testDeleteArticle() {
-        Article article = new Article();
-        article.setArticleId(2);
-
-        int row = repository.deleteArticleById(article);
+        int row = repository.deleteArticleById(2);
         assertEquals(1, row);
     }
 
     @Test
     @Ignore
     public void testQueryArticleById() {
-        Article article = new Article();
-        article.setArticleId(4);
-        Article testArticle = repository.queryArticleById(article);
+        Article testArticle = repository.queryArticleById(4);
         System.out.println(testArticle.getTitle());
         System.out.println(testArticle.getContent());
     }
@@ -92,12 +82,8 @@ public class ArticleRepositoryTest {
     @Test
     @Ignore
     public void testQueryArticleByCategoryId() {
-        ArticleCategory category = new ArticleCategory();
-        category.setCategoryId(4);
-        Article article = new Article();
-        article.setCategory(category);
 
-        List<Article> articleList = repository.queryArticleByCategoryId(article, 0, 3);
+        List<Article> articleList = repository.queryArticleByCategoryId(2, 0, 3);
         System.out.println(articleList.size());
 
     }
@@ -105,12 +91,8 @@ public class ArticleRepositoryTest {
     @Test
     @Ignore
     public void testQueryArticleByTitle() {
-        User u = new User();
-        u.setUserId(1);
-        Article article = new Article();
-        article.setTitle("测试");
 //        List<Article> articleList = repository.queryArticleByTitle(article,u,0,3);
-        int count = repository.queryCountByTitle(article, u);
+        int count = repository.queryCountByTitle("测试", 1);
 //        for (Article a:articleList) {
 //            System.out.println(a.getTitle());
 //        }
@@ -121,10 +103,8 @@ public class ArticleRepositoryTest {
     @Test
     @Ignore
     public void queryTopSixArticle() {
-        User user = new User();
-        user.setUserId(1);
 
-        List<Article> articleList = repository.queryTopSixArticleByUser(user);
+        List<Article> articleList = repository.queryTopSixArticleByUser(1);
         System.out.println(articleList.size());
 
     }

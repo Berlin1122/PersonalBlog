@@ -15,7 +15,7 @@ public interface ArticleCategoryRepository {
             @Result(column = "category_name", property = "categoryName"),
             @Result(column = "user_id", property = "user.userId")
     })
-    List<ArticleCategory> queryArticleCategoryByUserId(User user);
+    List<ArticleCategory> queryArticleCategoryByUserId(int userId);
 
     @Delete("DELETE FROM tb_article_category WHERE category_id=#{categoryId}")
     @ResultMap("articleCategoryResult")
@@ -27,6 +27,6 @@ public interface ArticleCategoryRepository {
 
     @Select("SELECT category_name FROM tb_article_category WHERE category_id=#{categoryId}")
     @ResultMap("articleCategoryResult")
-    ArticleCategory queryCategoryByCategoryId(ArticleCategory category);
+    ArticleCategory queryCategoryByCategoryId(int categoryId);
 
 }

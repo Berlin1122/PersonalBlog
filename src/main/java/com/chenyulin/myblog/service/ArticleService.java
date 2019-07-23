@@ -23,25 +23,25 @@ public class ArticleService {
         }
     }
 
-    public int getArticleCountByUser(User user) {
-        return repository.queryArticleCountByUser(user);
+    public int getArticleCountByUser(int userId) {
+        return repository.queryArticleCountByUser(userId);
     }
 
     /**
      * 获取当前用户下所有文章，用于管理（删除更改等）
      *
-     * @param user
+     * @param userId
      * @param page
      * @return
      */
-    public List<Article> getArticleListByUser(User user, int page) {
+    public List<Article> getArticleListByUser(int userId, int page) {
         int startIndex = PageUtil.calStartIndex(page);
         int countPerpage = (int) PageUtil.DATA_COUNT_PERPAGE;
-        return repository.queryArticleByPage(user, startIndex, countPerpage);
+        return repository.queryArticleByPage(userId, startIndex, countPerpage);
     }
 
-    public boolean removeArticleById(Article article) {
-        int row = repository.deleteArticleById(article);
+    public boolean removeArticleById(int articleId) {
+        int row = repository.deleteArticleById(articleId);
         if (row <= 0) {
             return false;
         } else {
@@ -49,63 +49,64 @@ public class ArticleService {
         }
     }
 
-    public Article getArticleById(Article article) {
-        return repository.queryArticleById(article);
+    public Article getArticleById(int articleId) {
+        return repository.queryArticleById(articleId);
     }
 
     /**
      * 查询某个类别下的文章,根据页码决定查询数量
      *
-     * @param article
+     * @param categoryId
      * @param page    1表示第一页,2表示第二页...
      * @return
      */
-    public List<Article> getArticleListByCategoryId(Article article, int page) {
+    public List<Article> getArticleListByCategoryId(int categoryId, int page) {
         int startIndex = PageUtil.calStartIndex(page);
         int countPerpage = (int) PageUtil.DATA_COUNT_PERPAGE;
         //TODO 如果对应的类别文章数为0 怎么处理
-        List<Article> articleList = repository.queryArticleByCategoryId(article, startIndex, countPerpage);
+        List<Article> articleList = repository.queryArticleByCategoryId(categoryId, startIndex, countPerpage);
 
         return articleList;
     }
 
-    public int getArticleCountByCategory(Article article) {
-        return repository.queryCountByCategoryId(article);
+    public int getArticleCountByCategory(int categoryId) {
+        return repository.queryCountByCategoryId(categoryId);
     }
 
     /**
      * 模糊查询,根据title,userId 查询符合条件的文章，并分页
      *
-     * @param user
-     * @param article
+     * @param userId
+     * @param title
      * @param page    1表示第一页,2表示第二页...
      * @return
      */
-    public List<Article> getArticleListByTitle(User user, Article article, int page) {
+    public List<Article> getArticleListByTitle(int userId, String title, int page) {
         int startIndex = PageUtil.calStartIndex(page);
         int countPerpage = (int) PageUtil.DATA_COUNT_PERPAGE;
-        return repository.queryArticleByTitle(article, user, startIndex, countPerpage);
+        return repository.queryArticleByTitle(title,userId,startIndex, countPerpage);
     }
 
     /**
      * 获取当前用户最近发布的前6篇文章，用于首页显示
      *
-     * @param user
+     * @param userId
      * @return
      */
 
-    public List<Article> getTop6ArticleListByUser(User user) {
-        return repository.queryTopSixArticleByUser(user);
+    public List<Article> getTop6ArticleListByUser(int userId) {
+        return repository.queryTopSixArticleByUser(userId);
     }
 
     /**
      * 获取模糊查询符合条件的文章数量
      *
-     * @param article
-     * @param user
+     * @param title
+     * @param userId
      * @return
      */
-    public int getCountByTitle(Article article, User user) {
-        return repository.queryCountByTitle(article, user);
+    public int getCountByTitle(String title, int userId) {
+        return repository.queryCountByTitle(title, userId);
     }
+
 }

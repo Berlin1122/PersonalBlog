@@ -35,7 +35,7 @@ public class UserRepositoryTest {
     public void testQueryUserByName() {
         User user = new User();
         user.setUserName("Ber1122");
-        User dbUser = repository.queryUserByUserName(user);
+        User dbUser = repository.queryUserByUserName("Ber1122");
         System.out.println(dbUser.getUserName());
     }
 

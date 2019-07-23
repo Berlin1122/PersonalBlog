@@ -73,20 +73,17 @@
     <div class="editormd" id="test-editormd" style="margin-top:30px">
         <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc"></textarea>
         <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
-        <textarea id="txtAreaBlogData" class="editormd-html-textarea" name="text"></textarea>
+        <textarea  th:text="${content}" id="txtAreaBlogData" class="editormd-html-textarea" name="text"></textarea>
     </div>
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-sm-2">
+        </div>
+        <div class="col-sm-4">
             <button id="btnPublish" type="button" style="float:right" class="btn btn-lg btn-primary">发布</button>
         </div>
-        <div class="col-md-4">
-
+        <div class="col-sm-6">
         </div>
-        <div class="col-md-4">
-            <button id="btnSave" type="button" class="btn btn-lg btn-info">保存</button>
-        </div>
-
     </div>
 
 </div><!-- /.container -->
