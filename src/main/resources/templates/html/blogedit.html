@@ -71,9 +71,9 @@
     </div>
 
     <div class="editormd" id="test-editormd" style="margin-top:30px">
-        <textarea class="editormd-markdown-textarea" name="test-editormd-markdown-doc"></textarea>
+        <textarea id="content-md" class="editormd-markdown-textarea" name="test-editormd-markdown-doc"></textarea>
         <!-- 第二个隐藏文本域，用来构造生成的HTML代码，方便表单POST提交，这里的name可以任意取，后台接受时以这个name键为准 -->
-        <textarea  th:text="${content}" id="txtAreaBlogData" class="editormd-html-textarea" name="text"></textarea>
+        <textarea id="txtAreaBlogData" class="editormd-html-textarea" name="text"></textarea>
     </div>
 
     <div class="row">

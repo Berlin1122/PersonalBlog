@@ -49,11 +49,9 @@
 
             if (keywords.propertyIsEnumerable(cur)) {
                 return "keyword";
-            }
-            else if (keywords_block.propertyIsEnumerable(cur)) {
+            } else if (keywords_block.propertyIsEnumerable(cur)) {
                 return "variable-2";
-            }
-            else if (keywords_important.propertyIsEnumerable(cur)) {
+            } else if (keywords_important.propertyIsEnumerable(cur)) {
                 return "string-2";
             }
             /**/
@@ -62,40 +60,31 @@
             if (ch == "@") {
                 stream.eatWhile(/[\w\\\-]/);
                 return ret("meta", stream.current());
-            }
-            else if (ch == "/" && stream.eat("*")) {
+            } else if (ch == "/" && stream.eat("*")) {
                 state.tokenize = tokenCComment;
                 return tokenCComment(stream, state);
-            }
-            else if (ch == "<" && stream.eat("!")) {
+            } else if (ch == "<" && stream.eat("!")) {
                 state.tokenize = tokenSGMLComment;
                 return tokenSGMLComment(stream, state);
-            }
-            else if (ch == "=") ret(null, "compare");
+            } else if (ch == "=") ret(null, "compare");
             else if ((ch == "~" || ch == "|") && stream.eat("=")) return ret(null, "compare");
             else if (ch == "\"" || ch == "'") {
                 state.tokenize = tokenString(ch);
                 return state.tokenize(stream, state);
-            }
-            else if (ch == "#") {
+            } else if (ch == "#") {
                 stream.skipToEnd();
                 return ret("comment", "comment");
-            }
-            else if (ch == "!") {
+            } else if (ch == "!") {
                 stream.match(/^\s*\w*/);
                 return ret("keyword", "important");
-            }
-            else if (/\d/.test(ch)) {
+            } else if (/\d/.test(ch)) {
                 stream.eatWhile(/[\w.%]/);
                 return ret("number", "unit");
-            }
-            else if (/[,.+>*\/]/.test(ch)) {
+            } else if (/[,.+>*\/]/.test(ch)) {
                 return ret(null, "select-op");
-            }
-            else if (/[;{}:\[\]]/.test(ch)) {
+            } else if (/[;{}:\[\]]/.test(ch)) {
                 return ret(null, ch);
-            }
-            else {
+            } else {
                 stream.eatWhile(/[\w\\\-]/);
                 return ret("variable", "variable");
             }
@@ -164,8 +153,7 @@
                 if (type == "{") {
                     if (context == "@media") state.stack[state.stack.length - 1] = "@media{";
                     else state.stack.push("{");
-                }
-                else if (type == "}") state.stack.pop();
+                } else if (type == "}") state.stack.pop();
                 else if (type == "@media") state.stack.push("@media");
                 else if (context == "{" && type != "comment") state.stack.push("rule");
                 return style;

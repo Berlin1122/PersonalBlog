@@ -174,8 +174,7 @@
             if (ch == "/") { // tw invisible comment
                 if (stream.eat("%")) {
                     return chain(stream, state, twTokenComment);
-                }
-                else if (stream.eat("/")) { //
+                } else if (stream.eat("/")) { //
                     return chain(stream, state, twTokenEm);
                 }
             }
@@ -204,8 +203,7 @@
                 if (stream.eat("<")) {
                     return chain(stream, state, twTokenMacro);
                 }
-            }
-            else {
+            } else {
                 return ret(ch);
             }
 
@@ -338,8 +336,7 @@
 
             if (known) {
                 return ret(known.type, known.style, word);
-            }
-            else {
+            } else {
                 return ret("macro", null, word);
             }
         }

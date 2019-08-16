@@ -25,8 +25,7 @@
             if (stream.match(scriptStartRegex, false)) {
                 state.token = scriptingDispatch;
                 return scriptingMode.token(stream, state.scriptState);
-            }
-            else
+            } else
                 return htmlMixedMode.token(stream, state.htmlState);
         }
 
@@ -35,8 +34,7 @@
             if (stream.match(scriptEndRegex, false)) {
                 state.token = htmlDispatch;
                 return htmlMixedMode.token(stream, state.htmlState);
-            }
-            else
+            } else
                 return scriptingMode.token(stream, state.scriptState);
         }
 

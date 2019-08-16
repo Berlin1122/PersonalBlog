@@ -55,7 +55,9 @@
                     <th th:text="${article.title}">标题1</th>
                     <th th:text="${#dates.format(article.lastEditTime,'yyyy-MM-dd')}">2018/12/12</th>
                     <th>
-                        <button th:id="${article.articleId}" type="button" class="btn btn-sm btn-danger article_delete"> 删除</button>
+                        <button th:id="${article.articleId}" type="button" class="btn btn-sm btn-danger article_delete">
+                            删除
+                        </button>
                     </th>
                 </tr>
                 </tbody>

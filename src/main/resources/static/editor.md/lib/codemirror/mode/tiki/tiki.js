@@ -232,8 +232,7 @@
             if (type == "openPlugin") {
                 curState.pluginName = pluginName;
                 return cont(attributes, endplugin(curState.startOfLine));
-            }
-            else if (type == "closePlugin") {
+            } else if (type == "closePlugin") {
                 var err = false;
                 if (curState.context) {
                     err = curState.context.pluginName != pluginName;
@@ -243,13 +242,11 @@
                 }
                 if (err) setStyle = "error";
                 return cont(endcloseplugin(err));
-            }
-            else if (type == "string") {
+            } else if (type == "string") {
                 if (!curState.context || curState.context.name != "!cdata") pushContext("!cdata");
                 if (curState.tokenize == inText) popContext();
                 return cont();
-            }
-            else return cont();
+            } else return cont();
         }
 
         function endplugin(startOfLine) {

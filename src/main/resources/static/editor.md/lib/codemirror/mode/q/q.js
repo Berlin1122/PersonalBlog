@@ -128,8 +128,7 @@
                 else if (/[\]\}\)]/.test(curPunc)) {
                     while (state.context && state.context.type == "pattern") popContext(state);
                     if (state.context && curPunc == state.context.type) popContext(state);
-                }
-                else if (curPunc == "." && state.context && state.context.type == "pattern") popContext(state);
+                } else if (curPunc == "." && state.context && state.context.type == "pattern") popContext(state);
                 else if (/atom|string|variable/.test(style) && state.context) {
                     if (/[\}\]]/.test(state.context.type))
                         pushContext(state, "pattern", stream.column());

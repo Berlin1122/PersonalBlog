@@ -342,9 +342,7 @@
                 }
             } else if (stream.match(rx_verbatim)) {
                 change(state, to_verbatim);
-            }
-
-            else {
+            } else {
                 if (stream.next()) change(state, to_normal);
             }
 
@@ -444,9 +442,7 @@
             } else if (stream.match(rx_citation)) {
                 change(state, to_normal);
                 token = 'quote';
-            }
-
-            else {
+            } else {
                 stream.eatSpace();
                 if (stream.eol()) {
                     change(state, to_normal);

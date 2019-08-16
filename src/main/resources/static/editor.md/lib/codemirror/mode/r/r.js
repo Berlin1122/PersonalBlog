@@ -150,8 +150,7 @@
                 else if (curPunc == "(") {
                     push(state, ")", stream);
                     if (state.afterIdent) state.ctx.argList = true;
-                }
-                else if (curPunc == "[") push(state, "]", stream);
+                } else if (curPunc == "[") push(state, "]", stream);
                 else if (curPunc == "block") push(state, "block", stream);
                 else if (curPunc == ctype) pop(state);
                 state.afterIdent = style == "variable" || style == "keyword";

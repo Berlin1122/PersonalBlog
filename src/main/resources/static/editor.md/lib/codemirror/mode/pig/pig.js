@@ -84,8 +84,7 @@
             else if (ch == "/") {
                 if (stream.eat("*")) {
                     return chain(stream, state, tokenComment);
-                }
-                else {
+                } else {
                     stream.eatWhile(isOperatorChar);
                     return ret("operator", "operator");
                 }
@@ -95,8 +94,7 @@
                 if (stream.eat("-")) {
                     stream.skipToEnd();
                     return ret("comment", "comment");
-                }
-                else {
+                } else {
                     stream.eatWhile(isOperatorChar);
                     return ret("operator", "operator");
                 }
@@ -105,16 +103,14 @@
             else if (isOperatorChar.test(ch)) {
                 stream.eatWhile(isOperatorChar);
                 return ret("operator", "operator");
-            }
-            else {
+            } else {
                 // get the while word
                 stream.eatWhile(/[\w\$_]/);
                 // is it one of the listed keywords?
                 if (keywords && keywords.propertyIsEnumerable(stream.current().toUpperCase())) {
                     if (stream.eat(")") || stream.eat(".")) {
                         //keywords can be used as variables like flatten(group), group.$0 etc..
-                    }
-                    else {
+                    } else {
                         return ("keyword", "keyword");
                     }
                 }

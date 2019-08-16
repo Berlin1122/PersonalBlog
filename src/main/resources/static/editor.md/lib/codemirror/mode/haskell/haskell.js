@@ -49,8 +49,7 @@
             if (ch == '\'') {
                 if (source.eat('\\')) {
                     source.next();  // should handle other escapes here
-                }
-                else {
+                } else {
                     source.next();
                 }
                 if (source.eat('\'')) {
@@ -132,8 +131,7 @@
                     var ch = source.next();
                     if (ch == '{' && source.eat('-')) {
                         ++currNest;
-                    }
-                    else if (ch == '-' && source.eat('}')) {
+                    } else if (ch == '-' && source.eat('}')) {
                         --currNest;
                         if (currNest == 0) {
                             setState(normal);
@@ -159,8 +157,7 @@
                         return "string";
                     }
                     if (source.eat('&')) {
-                    }
-                    else {
+                    } else {
                         source.next(); // should handle other escapes here
                     }
                 }

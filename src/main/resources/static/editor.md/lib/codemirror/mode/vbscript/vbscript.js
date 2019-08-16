@@ -140,11 +140,9 @@ E.G.:
                 // Floats
                 if (stream.match(/^\d*\.\d+/i)) {
                     floatLiteral = true;
-                }
-                else if (stream.match(/^\d+\.\d*/)) {
+                } else if (stream.match(/^\d+\.\d*/)) {
                     floatLiteral = true;
-                }
-                else if (stream.match(/^\.\d+/)) {
+                } else if (stream.match(/^\.\d+/)) {
                     floatLiteral = true;
                 }
 

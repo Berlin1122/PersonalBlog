@@ -238,16 +238,13 @@
                 if (stream.eatWhile(/[\w-]/)) {
                     if (stream.match(/ *: *[\w-\+\$#!\("']/, false)) {
                         return "propery";
-                    }
-                    else if (stream.match(/ *:/, false)) {
+                    } else if (stream.match(/ *:/, false)) {
                         indent(state);
                         state.cursorHalf = 1;
                         return "atom";
-                    }
-                    else if (stream.match(/ *,/, false)) {
+                    } else if (stream.match(/ *,/, false)) {
                         return "atom";
-                    }
-                    else {
+                    } else {
                         indent(state);
                         return "atom";
                     }

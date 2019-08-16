@@ -77,11 +77,9 @@
                 // Floats
                 if (stream.match(/^\d*\.\d+F?/i)) {
                     floatLiteral = true;
-                }
-                else if (stream.match(/^\d+\.\d*F?/)) {
+                } else if (stream.match(/^\d+\.\d*F?/)) {
                     floatLiteral = true;
-                }
-                else if (stream.match(/^\.\d+F?/)) {
+                } else if (stream.match(/^\.\d+F?/)) {
                     floatLiteral = true;
                 }
 

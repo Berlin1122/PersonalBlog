@@ -11,3 +11,8 @@
 .blogIntroDiv p {
     padding: 5px;
 }
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;width:100%;
+}
+
