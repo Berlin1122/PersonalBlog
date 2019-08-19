@@ -105,8 +105,7 @@
                 this.dialogShowMask(dialog);
                 this.dialogLockScreen();
                 dialog.show();
-            }
-            else {
+            } else {
                 dialog = this.createDialog({
                     name: dialogName,
                     title: dialogLang.title,
@@ -198,22 +197,18 @@
                                     src = exports.emoji.path + src + exports.emoji.ext;
                                     img = "<img src=\"" + src + "\" width=\"24\" class=\"emoji\" title=\"&#58;" + emoji + "&#58;\" alt=\"&#58;" + emoji + "&#58;\" />";
                                     row += "<a href=\"javascript:;\" value=\":" + emoji + ":\" title=\":" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + img + "</a>";
-                                }
-                                else if (type === "twemoji") {
+                                } else if (type === "twemoji") {
                                     var twemojiSrc = exports.twemoji.path + emoji + exports.twemoji.ext;
                                     img = "<img src=\"" + twemojiSrc + "\" width=\"24\" title=\"twemoji-" + emoji + "\" alt=\"twemoji-" + emoji + "\" class=\"emoji twemoji\" />";
                                     row += "<a href=\"javascript:;\" value=\":tw-" + emoji + ":\" title=\":tw-" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + img + "</a>";
-                                }
-                                else if (type === "font-awesome") {
+                                } else if (type === "font-awesome") {
                                     icon = "<i class=\"fa fa-" + emoji + " fa-emoji\" title=\"" + emoji + "\"></i>";
                                     row += "<a href=\"javascript:;\" value=\":fa-" + emoji + ":\" title=\":fa-" + emoji + ":\" class=\"" + classPrefix + "emoji-btn\">" + icon + "</a>";
-                                }
-                                else if (type === "editormd-logo") {
+                                } else if (type === "editormd-logo") {
                                     icon = "<i class=\"" + emoji + "\" title=\"Editor.md logo (" + emoji + ")\"></i>";
                                     row += "<a href=\"javascript:;\" value=\":" + emoji + ":\" title=\":" + emoji + ":\" style=\"width:20%;\" class=\"" + classPrefix + "emoji-btn\">" + icon + "</a>";
                                 }
-                            }
-                            else {
+                            } else {
                                 row += "<a href=\"javascript:;\" value=\"\"></a>";
                             }
                         }
@@ -234,8 +229,7 @@
                         $tab.append("<h4" + h4Style + ">" + $data[i].category + "</h4>");
                         $tab.append(pagination($data[i].list, cname));
                     }
-                }
-                else {
+                } else {
                     $tab.append(pagination($data, cname));
                 }
 
@@ -263,8 +257,7 @@
                     emojiData[logoPrefix] = logos;
                     drawTable();
                 });
-            }
-            else {
+            } else {
                 drawTable();
             }
 
@@ -283,8 +276,7 @@
     // CommonJS/Node.js
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         module.exports = factory;
-    }
-    else if (typeof define === "function")  // AMD/CMD/Sea.js
+    } else if (typeof define === "function")  // AMD/CMD/Sea.js
     {
         if (define.amd) { // for Require.js
 
@@ -298,8 +290,7 @@
                 factory(editormd);
             });
         }
-    }
-    else {
+    } else {
         factory(window.editormd);
     }
 

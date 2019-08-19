@@ -1365,8 +1365,7 @@
             if (this.cm.options.readOnly != "nocursor" && (!mobile || activeElt() != this.textarea)) {
                 try {
                     this.textarea.focus();
-                }
-                catch (e) {
+                } catch (e) {
                 } // IE8 will throw if the textarea is display: none or not in DOM
             }
         },
@@ -1406,8 +1405,7 @@
                 if (!changed && !missed) {
                     missed = true;
                     input.polling.set(60, p);
-                }
-                else {
+                } else {
                     input.pollingFast = false;
                     input.slowPoll();
                 }
@@ -1693,8 +1691,7 @@
 
             try {
                 var rng = range(start.node, start.offset, end.offset, end.node);
-            }
-            catch (e) {
+            } catch (e) {
             } // Our model of the DOM might be outdated, in which case the range we try to set can be impossible
             if (rng) {
                 sel.removeAllRanges();
@@ -1802,13 +1799,11 @@
                     newText.pop();
                     oldText.pop();
                     toLine--;
-                }
-                else if (newText[0] == oldText[0]) {
+                } else if (newText[0] == oldText[0]) {
                     newText.shift();
                     oldText.shift();
                     fromLine++;
-                }
-                else break;
+                } else break;
             }
 
             var cutFront = 0, cutEnd = 0;
@@ -3005,8 +3000,7 @@
                 toX = middleX;
                 if (toOutside = wrongLine) toX += 1000;
                 dist = step;
-            }
-            else {
+            } else {
                 from = middle;
                 fromX = middleX;
                 fromOutside = wrongLine;
@@ -3111,8 +3105,7 @@
 
         try {
             fireCallbacksForOps(group);
-        }
-        finally {
+        } finally {
             operationGroup = null;
             for (var i = 0; i < group.ops.length; i++)
                 group.ops[i].cm.curOp = null;
@@ -3249,8 +3242,7 @@
         startOperation(cm);
         try {
             return f();
-        }
-        finally {
+        } finally {
             endOperation(cm);
         }
     }
@@ -3262,8 +3254,7 @@
             startOperation(cm);
             try {
                 return f.apply(cm, arguments);
-            }
-            finally {
+            } finally {
                 endOperation(cm);
             }
         };
@@ -3277,8 +3268,7 @@
             startOperation(this);
             try {
                 return f.apply(this, arguments);
-            }
-            finally {
+            } finally {
                 endOperation(this);
             }
         };
@@ -3291,8 +3281,7 @@
             startOperation(cm);
             try {
                 return f.apply(this, arguments);
-            }
-            finally {
+            } finally {
                 endOperation(cm);
             }
         };
@@ -3656,8 +3645,7 @@
         try {
             x = e.clientX - space.left;
             y = e.clientY - space.top;
-        }
-        catch (e) {
+        } catch (e) {
             return null;
         }
         var coords = coordsChar(cm, x, y), line;
@@ -3920,8 +3908,7 @@
     function gutterEvent(cm, e, type, prevent, signalfn) {
         try {
             var mX = e.clientX, mY = e.clientY;
-        }
-        catch (e) {
+        } catch (e) {
             return false;
         }
         if (mX >= Math.floor(cm.display.gutters.getBoundingClientRect().right)) return false;
@@ -3999,8 +3986,7 @@
                     cm.replaceSelection(text, "around", "paste");
                     cm.display.input.focus();
                 }
-            }
-            catch (e) {
+            } catch (e) {
             }
         }
     }
@@ -4517,8 +4503,7 @@
                     return;
                 }
                 selAfter = event;
-            }
-            else break;
+            } else break;
         }
 
         // Build up a reverse change object to add to the opposite history
@@ -6318,8 +6303,7 @@
             this.lineStart += n;
             try {
                 return inner();
-            }
-            finally {
+            } finally {
                 this.lineStart -= n;
             }
         }
@@ -8407,8 +8391,7 @@
         for (var i = 0, out; i < spans.length; ++i) {
             if (spans[i].marker.explicitlyCleared) {
                 if (!out) out = spans.slice(0, i);
-            }
-            else if (out) out.push(spans[i]);
+            } else if (out) out.push(spans[i]);
         }
         return !out ? spans : out.length ? out : null;
     }
@@ -8833,8 +8816,7 @@
         var r = document.body.createTextRange();
         try {
             r.moveToElementText(node.parentNode);
-        }
-        catch (e) {
+        } catch (e) {
             return r;
         }
         r.collapse(true);
@@ -8873,8 +8855,7 @@
     if (ie && ie_version < 11) activeElt = function () {
         try {
             return document.activeElement;
-        }
-        catch (e) {
+        } catch (e) {
             return document.body;
         }
     };
@@ -9004,15 +8985,13 @@
     var hasSelection = window.getSelection ? function (te) {
         try {
             return te.selectionStart != te.selectionEnd;
-        }
-        catch (e) {
+        } catch (e) {
             return false;
         }
     } : function (te) {
         try {
             var range = te.ownerDocument.selection.createRange();
-        }
-        catch (e) {
+        } catch (e) {
         }
         if (!range || range.parentElement() != te) return false;
         return range.compareEndPoints("StartToEnd", range) != 0;

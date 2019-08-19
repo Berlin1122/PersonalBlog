@@ -92,8 +92,7 @@
 
                             if (link === "" || link === "http://") {
                                 cm.replaceSelection("![" + alt + "](" + url + altAttr + ")");
-                            }
-                            else {
+                            } else {
                                 cm.replaceSelection("[![" + alt + "](" + url + altAttr + ")](" + link + altAttr + ")");
                             }
 
@@ -156,8 +155,7 @@
                             if (!settings.crossDomainUpload) {
                                 if (json.success === 1) {
                                     dialog.find("[data-url]").val(json.url);
-                                }
-                                else {
+                                } else {
                                     alert(json.message);
                                 }
                             }
@@ -186,8 +184,7 @@
     // CommonJS/Node.js
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         module.exports = factory;
-    }
-    else if (typeof define === "function")  // AMD/CMD/Sea.js
+    } else if (typeof define === "function")  // AMD/CMD/Sea.js
     {
         if (define.amd) { // for Require.js
 
@@ -201,8 +198,7 @@
                 factory(editormd);
             });
         }
-    }
-    else {
+    } else {
         factory(window.editormd);
     }
 

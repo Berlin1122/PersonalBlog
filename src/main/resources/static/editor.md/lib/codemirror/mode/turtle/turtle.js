@@ -29,24 +29,19 @@
             if (ch == "<" && !stream.match(/^[\s\u00a0=]/, false)) {
                 stream.match(/^[^\s\u00a0>]*>?/);
                 return "atom";
-            }
-            else if (ch == "\"" || ch == "'") {
+            } else if (ch == "\"" || ch == "'") {
                 state.tokenize = tokenLiteral(ch);
                 return state.tokenize(stream, state);
-            }
-            else if (/[{}\(\),\.;\[\]]/.test(ch)) {
+            } else if (/[{}\(\),\.;\[\]]/.test(ch)) {
                 curPunc = ch;
                 return null;
-            }
-            else if (ch == "#") {
+            } else if (ch == "#") {
                 stream.skipToEnd();
                 return "comment";
-            }
-            else if (operatorChars.test(ch)) {
+            } else if (operatorChars.test(ch)) {
                 stream.eatWhile(operatorChars);
                 return null;
-            }
-            else if (ch == ":") {
+            } else if (ch == ":") {
                 return "operator";
             } else {
                 stream.eatWhile(/[_\w\d]/);
@@ -126,8 +121,7 @@
                 else if (/[\]\}\)]/.test(curPunc)) {
                     while (state.context && state.context.type == "pattern") popContext(state);
                     if (state.context && curPunc == state.context.type) popContext(state);
-                }
-                else if (curPunc == "." && state.context && state.context.type == "pattern") popContext(state);
+                } else if (curPunc == "." && state.context && state.context.type == "pattern") popContext(state);
                 else if (/atom|string|variable/.test(style) && state.context) {
                     if (/[\}\]]/.test(state.context.type))
                         pushContext(state, "pattern", stream.column());

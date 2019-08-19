@@ -79,8 +79,7 @@
             token.end = token.start;
             token.string = '.';
             token.type = "property";
-        }
-        else if (/^\.[\w$_]*$/.test(token.string)) {
+        } else if (/^\.[\w$_]*$/.test(token.string)) {
             token.type = "property";
             token.start++;
             token.string = token.string.replace(/\./, '');

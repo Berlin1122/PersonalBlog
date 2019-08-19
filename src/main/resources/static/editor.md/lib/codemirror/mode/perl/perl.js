@@ -493,8 +493,7 @@
                             state.chain = chain[i];
                             state.style = style;
                             state.tail = tail;
-                        }
-                        else if (tail)
+                        } else if (tail)
                             stream.eatWhile(tail);
                         state.tokenize = tokenPerl;
                         return style;
@@ -569,8 +568,7 @@
                             eatSuffix(stream, 1);
                             return tokenChain(stream, state, [stream.eat(c)], RXstyle, RXmodifiers);
                         }
-                    }
-                    else if (c == "q") {
+                    } else if (c == "q") {
                         c = look(stream, 1);
                         if (c == "(") {
                             eatSuffix(stream, 2);
@@ -592,8 +590,7 @@
                             eatSuffix(stream, 1);
                             return tokenChain(stream, state, [stream.eat(c)], "string");
                         }
-                    }
-                    else if (c == "w") {
+                    } else if (c == "w") {
                         c = look(stream, 1);
                         if (c == "(") {
                             eatSuffix(stream, 2);
@@ -615,8 +612,7 @@
                             eatSuffix(stream, 1);
                             return tokenChain(stream, state, [stream.eat(c)], "bracket");
                         }
-                    }
-                    else if (c == "r") {
+                    } else if (c == "r") {
                         c = look(stream, 1);
                         if (c == "(") {
                             eatSuffix(stream, 2);
@@ -638,8 +634,7 @@
                             eatSuffix(stream, 1);
                             return tokenChain(stream, state, [stream.eat(c)], RXstyle, RXmodifiers);
                         }
-                    }
-                    else if (/[\^'"!~\/(\[{<]/.test(c)) {
+                    } else if (/[\^'"!~\/(\[{<]/.test(c)) {
                         if (c == "(") {
                             eatSuffix(stream, 1);
                             return tokenChain(stream, state, [")"], "string");
@@ -791,11 +786,9 @@
                 if (stream.pos == 1) {
                     if (suffix(stream, 6) == "_END__") {
                         return tokenChain(stream, state, ['\0'], "comment");
-                    }
-                    else if (suffix(stream, 7) == "_DATA__") {
+                    } else if (suffix(stream, 7) == "_DATA__") {
                         return tokenChain(stream, state, ['\0'], "variable-2");
-                    }
-                    else if (suffix(stream, 7) == "_C__") {
+                    } else if (suffix(stream, 7) == "_C__") {
                         return tokenChain(stream, state, ['\0'], "string");
                     }
                 }
@@ -813,8 +806,7 @@
                 stream.eatWhile(/[A-Z_]/);
                 if (/[\da-z]/.test(look(stream, 0))) {
                     stream.pos = p;
-                }
-                else {
+                } else {
                     var c = PERL[stream.current()];
                     if (!c)
                         return "meta";
@@ -833,8 +825,7 @@
                             return "variable-2";
                         else
                             return "meta";
-                    }
-                    else
+                    } else
                         return "meta";
                 }
             }
@@ -859,8 +850,7 @@
                         return "variable-2";
                     else
                         return "meta";
-                }
-                else
+                } else
                     return "meta";
             }
             return null;
@@ -896,8 +886,7 @@
         if (c) {
             var x = stream.pos - c;
             return stream.string.substr((x >= 0 ? x : 0), c);
-        }
-        else {
+        } else {
             return stream.string.substr(0, stream.pos - 1);
         }
     }

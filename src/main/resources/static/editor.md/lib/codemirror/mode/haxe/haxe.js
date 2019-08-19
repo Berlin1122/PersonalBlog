@@ -106,50 +106,40 @@
             else if (ch == "0" && stream.eat(/x/i)) {
                 stream.eatWhile(/[\da-f]/i);
                 return ret("number", "number");
-            }
-            else if (/\d/.test(ch) || ch == "-" && stream.eat(/\d/)) {
+            } else if (/\d/.test(ch) || ch == "-" && stream.eat(/\d/)) {
                 stream.match(/^\d*(?:\.\d*)?(?:[eE][+\-]?\d+)?/);
                 return ret("number", "number");
-            }
-            else if (state.reAllowed && (ch == "~" && stream.eat(/\//))) {
+            } else if (state.reAllowed && (ch == "~" && stream.eat(/\//))) {
                 nextUntilUnescaped(stream, "/");
                 stream.eatWhile(/[gimsu]/);
                 return ret("regexp", "string-2");
-            }
-            else if (ch == "/") {
+            } else if (ch == "/") {
                 if (stream.eat("*")) {
                     return chain(stream, state, haxeTokenComment);
-                }
-                else if (stream.eat("/")) {
+                } else if (stream.eat("/")) {
                     stream.skipToEnd();
                     return ret("comment", "comment");
-                }
-                else {
+                } else {
                     stream.eatWhile(isOperatorChar);
                     return ret("operator", null, stream.current());
                 }
-            }
-            else if (ch == "#") {
+            } else if (ch == "#") {
                 stream.skipToEnd();
                 return ret("conditional", "meta");
-            }
-            else if (ch == "@") {
+            } else if (ch == "@") {
                 stream.eat(/:/);
                 stream.eatWhile(/[\w_]/);
                 return ret("metadata", "meta");
-            }
-            else if (isOperatorChar.test(ch)) {
+            } else if (isOperatorChar.test(ch)) {
                 stream.eatWhile(isOperatorChar);
                 return ret("operator", null, stream.current());
-            }
-            else {
+            } else {
                 var word;
                 if (/[A-Z]/.test(ch)) {
                     stream.eatWhile(/[\w_<>]/);
                     word = stream.current();
                     return ret("type", "variable-3", word);
-                }
-                else {
+                } else {
                     stream.eatWhile(/[\w_]/);
                     var word = stream.current(), known = keywords.propertyIsEnumerable(word) && keywords[word];
                     return (known && state.kwAllowed) ? ret(known.type, known.style, word) :
@@ -370,16 +360,14 @@
             if (type == "variable" && /[A-Z]/.test(value.charAt(0))) {
                 registerimport(value);
                 return cont();
-            }
-            else if (type == "variable" || type == "property" || type == "." || value == "*") return cont(importdef);
+            } else if (type == "variable" || type == "property" || type == "." || value == "*") return cont(importdef);
         }
 
         function typedef(type, value) {
             if (type == "variable" && /[A-Z]/.test(value.charAt(0))) {
                 registerimport(value);
                 return cont();
-            }
-            else if (type == "type" && /[A-Z]/.test(value.charAt(0))) {
+            } else if (type == "type" && /[A-Z]/.test(value.charAt(0))) {
                 return cont();
             }
         }

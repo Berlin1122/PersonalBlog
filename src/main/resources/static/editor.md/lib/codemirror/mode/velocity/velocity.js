@@ -45,8 +45,7 @@
                 if (state.inString) {
                     state.inString = false;
                     return "string";
-                }
-                else if (state.inParams)
+                } else if (state.inParams)
                     return chain(stream, state, tokenString(ch));
             }
             // is it one of the special signs []{}().,;? Seperator?
@@ -87,8 +86,7 @@
                 // is it one of the specials?
                 if (specials && specials.propertyIsEnumerable(stream.current())) {
                     return "keyword";
-                }
-                else {
+                } else {
                     state.lastTokenWasBuiltin = true;
                     state.beforeParams = true;
                     return "builtin";
@@ -99,8 +97,7 @@
                 state.lastTokenWasBuiltin = false;
                 stream.eatWhile(isOperatorChar);
                 return "operator";
-            }
-            else {
+            } else {
                 // get the whole word
                 stream.eatWhile(/[\w\$_{}@]/);
                 var word = stream.current();

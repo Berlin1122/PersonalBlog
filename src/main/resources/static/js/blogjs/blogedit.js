@@ -54,6 +54,9 @@ $(function () {
         status = 1;
         blogContent = $("#txtAreaBlogData").text();
         blogTitle = $("#blogTitle").val();
+        var mdContent = $("#content-md").text();
+        console.log("markdown conten is")
+        console.log(mdContent)
         if (blogContent == '') {
             alert("至少写个字吧...");
         }

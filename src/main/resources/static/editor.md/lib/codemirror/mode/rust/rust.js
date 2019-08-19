@@ -55,8 +55,7 @@
                     if (stream.skipTo("'")) {
                         stream.next();
                         return "string";
-                    }
-                    else {
+                    } else {
                         return "error";
                     }
                 } else {
@@ -467,8 +466,7 @@
             if (content == "to") {
                 cx.marked = "keyword";
                 return cont(pattern);
-            }
-            else return pass();
+            } else return pass();
         }
 
         function altbody(type) {

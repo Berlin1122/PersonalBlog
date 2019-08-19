@@ -43,23 +43,19 @@
             else if (ch == "(") {
                 type = "open";
                 return "bracket";
-            }
-            else if (ch == ")" || ch == "]") {
+            } else if (ch == ")" || ch == "]") {
                 type = "close";
                 return "bracket";
-            }
-            else if (ch == ";") {
+            } else if (ch == ";") {
                 stream.skipToEnd();
                 type = "ws";
                 return "comment";
-            }
-            else if (/['`,@]/.test(ch)) return null;
+            } else if (/['`,@]/.test(ch)) return null;
             else if (ch == "|") {
                 if (stream.skipTo("|")) {
                     stream.next();
                     return "symbol";
-                }
-                else {
+                } else {
                     stream.skipToEnd();
                     return "error";
                 }
@@ -68,15 +64,13 @@
                 if (ch == "[") {
                     type = "open";
                     return "bracket";
-                }
-                else if (/[+\-=\.']/.test(ch)) return null;
+                } else if (/[+\-=\.']/.test(ch)) return null;
                 else if (/\d/.test(ch) && stream.match(/^\d*#/)) return null;
                 else if (ch == "|") return (state.tokenize = inComment)(stream, state);
                 else if (ch == ":") {
                     readSym(stream);
                     return "meta";
-                }
-                else return "error";
+                } else return "error";
             } else {
                 var name = readSym(stream);
                 if (name == ".") return null;

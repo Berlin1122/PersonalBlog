@@ -121,8 +121,8 @@ public class BlogDisplayController {
     public Map<String, Object> handleSearchAticleByTitle(HttpServletRequest request) {
         Map<String, Object> modelMap = new HashMap<String, Object>();
         String title = HttpServletRequestUtil.getString(request, "title");
-        logger.info("input title is "+title);
-        logger.info("user id "+currUser.getUserId());
+        logger.info("input title is " + title);
+        logger.info("user id " + currUser.getUserId());
         int count = articleService.getCountByTitle(title, currUser.getUserId());
         int totalPage = PageUtil.calTotalPages(count);
         System.out.println("总的页面数量" + totalPage);

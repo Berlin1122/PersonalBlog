@@ -2113,15 +2113,13 @@
 
             if (oSpace == null) {
                 oSpace = [" "];
-            }
-            else {
+            } else {
                 oSpace.push(" ");
             }
 
             if (nSpace == null) {
                 nSpace = [" "];
-            }
-            else {
+            } else {
                 nSpace.push(" ");
             }
 
@@ -2129,8 +2127,7 @@
                 for (i = 0; i < out.o.length; i++) {
                     str += "<del>" + out.o[i] + oSpace[i] + "</del>";
                 }
-            }
-            else {
+            } else {
                 if (out.n[0].text == null) {
                     for (n = 0; n < out.o.length && out.o[n].text == null; n++) {
                         str += "<del>" + out.o[n] + oSpace[n] + "</del>";
@@ -2140,8 +2137,7 @@
                 for (i = 0; i < out.n.length; i++) {
                     if (out.n[i].text == null) {
                         str += "<ins>" + out.n[i] + nSpace[i] + "</ins>";
-                    }
-                    else {
+                    } else {
                         // `pre` initialized at top of scope
                         pre = "";
 

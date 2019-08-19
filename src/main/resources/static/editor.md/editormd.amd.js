@@ -16,8 +16,7 @@
     // CommonJS/Node.js
     if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
         module.exports = factory;
-    }
-    else if (typeof define === "function")  // AMD/CMD/Sea.js
+    } else if (typeof define === "function")  // AMD/CMD/Sea.js
     {
         if (define.amd) // for Require.js
         {
@@ -83,12 +82,10 @@
             ];
 
             define(codeMirrorModules, factory);
-        }
-        else {
+        } else {
             define(["jquery"], factory);  // for Sea.js
         }
-    }
-    else {
+    } else {
         window.editormd = factory();
     }
 
@@ -540,8 +537,7 @@
                 }
 
                 this.setCodeMirror().setToolbar().loadedDisplay();
-            }
-            else {
+            } else {
                 this.loadQueues();
             }
 
@@ -577,15 +573,13 @@
                                 editormd.loadScript(loadPath + "sequence-diagram.min", function () {
                                     _this.loadedDisplay();
                                 });
-                            }
-                            else if (settings.flowChart && !settings.sequenceDiagram) {
+                            } else if (settings.flowChart && !settings.sequenceDiagram) {
                                 editormd.loadScript(loadPath + "flowchart.min", function () {
                                     editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
                                         _this.loadedDisplay();
                                     });
                                 });
-                            }
-                            else if (settings.flowChart && settings.sequenceDiagram) {
+                            } else if (settings.flowChart && settings.sequenceDiagram) {
                                 editormd.loadScript(loadPath + "flowchart.min", function () {
                                     editormd.loadScript(loadPath + "jquery.flowchart.min", function () {
                                         editormd.loadScript(loadPath + "sequence-diagram.min", function () {
@@ -597,8 +591,7 @@
                         });
 
                     });
-                }
-                else {
+                } else {
                     _this.loadedDisplay();
                 }
             };
@@ -639,8 +632,7 @@
                                 editormd.loadScript(loadPath + "prettify.min", function () {
                                     loadFlowChartOrSequenceDiagram();
                                 });
-                            }
-                            else {
+                            } else {
                                 loadFlowChartOrSequenceDiagram();
                             }
                         });
@@ -902,11 +894,9 @@
 
                 if (scrollTop === 0) {
                     preview.scrollTop(0);
-                }
-                else if (scrollTop + height >= cmScroll.scrollHeight - 16) {
+                } else if (scrollTop + height >= cmScroll.scrollHeight - 16) {
                     preview.scrollTop(preview[0].scrollHeight);
-                }
-                else {
+                } else {
                     preview.scrollTop(preview[0].scrollHeight * percent);
                 }
             }
@@ -1106,8 +1096,7 @@
                         width: editor.width() + "px",
                         left: ($window.width() - editor.width()) / 2 + "px"
                     });
-                }
-                else {
+                } else {
                     toolbar.css({
                         position: "absolute",
                         width: "100%",
@@ -1169,11 +1158,9 @@
 
                 if (name === "||") {
                     pullRight = true;
-                }
-                else if (name === "|") {
+                } else if (name === "|") {
                     menu += "<li class=\"divider\" unselectable=\"on\">|</li>";
-                }
-                else {
+                } else {
                     var isHeader = (/h(\d)/.test(name));
                     var index = name;
 
@@ -1193,8 +1180,7 @@
 
                     if (typeof settings.toolbarCustomIcons[name] !== "undefined" && typeof settings.toolbarCustomIcons[name] !== "function") {
                         menuItem += settings.toolbarCustomIcons[name];
-                    }
-                    else {
+                    } else {
                         menuItem += "<a href=\"javascript:;\" title=\"" + title + "\" unselectable=\"on\">";
                         menuItem += "<i class=\"fa " + iconClass + "\" name=\"" + name + "\" unselectable=\"on\">" + ((isHeader) ? name.toUpperCase() : ((iconClass === "") ? iconTexts : "")) + "</i>";
                         menuItem += "</a>";
@@ -1280,8 +1266,7 @@
 
                 if (typeof toolbarIconHandlers[name] !== "undefined") {
                     $.proxy(toolbarIconHandlers[name], _this)(cm);
-                }
-                else {
+                } else {
                     if (typeof settings.toolbarHandlers[name] !== "undefined") {
                         $.proxy(settings.toolbarHandlers[name], _this)(cm, icon, cursor, selection);
                     }
@@ -1562,11 +1547,9 @@
 
             if (scrollTop === 0) {
                 preview.scrollTop(0);
-            }
-            else if (scrollTop + height >= codeView[0].scrollHeight - 16) {
+            } else if (scrollTop + height >= codeView[0].scrollHeight - 16) {
                 preview.scrollTop(preview[0].scrollHeight);
-            }
-            else {
+            } else {
                 preview.scrollTop((preview[0].scrollHeight + tocHeight + tocMenuHeight) * percent);
             }
 
@@ -1600,8 +1583,7 @@
                         cm.addKeyMap(keyMap);
                     }
                 }
-            }
-            else {
+            } else {
                 for (var k in editormd.keyMaps) {
                     var _keyMap = editormd.keyMaps[k];
                     var handle = (typeof _keyMap === "string") ? $.proxy(toolbarHandlers[_keyMap], _this) : $.proxy(_keyMap, _this);
@@ -1684,11 +1666,9 @@
 
                     if (scrollTop === 0) {
                         preview.scrollTop(0);
-                    }
-                    else if (scrollTop + height >= $(this)[0].scrollHeight - 16) {
+                    } else if (scrollTop + height >= $(this)[0].scrollHeight - 16) {
                         preview.scrollTop(preview[0].scrollHeight);
-                    }
-                    else {
+                    } else {
                         preview.scrollTop((preview[0].scrollHeight + tocHeight + tocMenuHeight) * percent);
                     }
 
@@ -1710,11 +1690,9 @@
 
                     if (scrollTop === 0) {
                         codeView.scrollTop(0);
-                    }
-                    else if (scrollTop + height >= $(this)[0].scrollHeight) {
+                    } else if (scrollTop + height >= $(this)[0].scrollHeight) {
                         codeView.scrollTop(codeView[0].scrollHeight);
-                    }
-                    else {
+                    } else {
                         codeView.scrollTop(codeView[0].scrollHeight * percent);
                     }
 
@@ -1879,8 +1857,7 @@
             if (settings.autoHeight && !state.fullscreen && !state.preview) {
                 editor.css("height", "auto");
                 codeMirror.css("height", "auto");
-            }
-            else {
+            } else {
                 if (height) {
                     editor.css("height", (typeof height === "number") ? height + "px" : height);
                 }
@@ -1891,8 +1868,7 @@
 
                 if (settings.toolbar && !settings.readOnly) {
                     codeMirror.css("margin-top", toolbar.height() + 1).height(editor.height() - toolbar.height());
-                }
-                else {
+                } else {
                     codeMirror.css("margin-top", 0).height(editor.height());
                 }
             }
@@ -1905,21 +1881,18 @@
 
                 if (settings.toolbar && !settings.readOnly) {
                     preview.css("top", toolbar.height() + 1);
-                }
-                else {
+                } else {
                     preview.css("top", 0);
                 }
 
                 if (settings.autoHeight && !state.fullscreen && !state.preview) {
                     preview.height("");
-                }
-                else {
+                } else {
                     var previewHeight = (settings.toolbar && !settings.readOnly) ? editor.height() - toolbar.height() : editor.height();
 
                     preview.height(previewHeight);
                 }
-            }
-            else {
+            } else {
                 codeMirror.width(editor.width());
                 preview.hide();
             }
@@ -2036,8 +2009,7 @@
                             editormd.kaTeXLoaded = true;
                             _this.katexRender();
                         });
-                    }
-                    else {
+                    } else {
                         editormd.$katex = katex;
                         this.katexRender();
                     }
@@ -2470,8 +2442,7 @@
 
                 if (!settings.watch) {
                     this.save();
-                }
-                else {
+                } else {
                     previewContainer.css("padding", "");
                 }
 
@@ -2489,8 +2460,7 @@
                 }
 
                 $(window).bind("keyup", escHandle);
-            }
-            else {
+            } else {
                 $(window).unbind("keyup", escHandle);
                 this.previewed();
             }
@@ -2589,8 +2559,7 @@
                 $.proxy(settings.onfullscreen, this)();
 
                 $(window).bind("keyup", escHandle);
-            }
-            else {
+            } else {
                 $(window).unbind("keyup", escHandle);
                 this.fullscreenExit();
             }
@@ -2666,8 +2635,7 @@
                     editormd.loadPlugins[name] = _this[name];
                     _this[name](cm);
                 });
-            }
-            else {
+            } else {
                 $.proxy(editormd.loadPlugins[name], this)(cm);
             }
 
@@ -2804,8 +2772,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("> " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 2);
-            }
-            else {
+            } else {
                 cm.replaceSelection("> " + selection);
             }
 
@@ -2859,8 +2826,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("# " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 2);
-            }
-            else {
+            } else {
                 cm.replaceSelection("# " + selection);
             }
         },
@@ -2874,8 +2840,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("## " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 3);
-            }
-            else {
+            } else {
                 cm.replaceSelection("## " + selection);
             }
         },
@@ -2889,8 +2854,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 4);
-            }
-            else {
+            } else {
                 cm.replaceSelection("### " + selection);
             }
         },
@@ -2904,8 +2868,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("#### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 5);
-            }
-            else {
+            } else {
                 cm.replaceSelection("#### " + selection);
             }
         },
@@ -2919,8 +2882,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("##### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 6);
-            }
-            else {
+            } else {
                 cm.replaceSelection("##### " + selection);
             }
         },
@@ -2934,8 +2896,7 @@
                 cm.setCursor(cursor.line, 0);
                 cm.replaceSelection("###### " + selection);
                 cm.setCursor(cursor.line, cursor.ch + 7);
-            }
-            else {
+            } else {
                 cm.replaceSelection("###### " + selection);
             }
         },
@@ -2947,8 +2908,7 @@
 
             if (selection === "") {
                 cm.replaceSelection("- " + selection);
-            }
-            else {
+            } else {
                 var selectionText = selection.split("\n");
 
                 for (var i = 0, len = selectionText.length; i < len; i++) {
@@ -2966,8 +2926,7 @@
 
             if (selection === "") {
                 cm.replaceSelection("1. " + selection);
-            }
-            else {
+            } else {
                 var selectionText = selection.split("\n");
 
                 for (var i = 0, len = selectionText.length; i < len; i++) {
@@ -3357,8 +3316,7 @@
 
                             return "<i class=\"fa " + faName + " fa-emoji\" title=\"" + faName.replace("fa-", "") + "\"></i>";
                         }
-                    }
-                    else {
+                    } else {
                         var emdlogoMathcs = $1.match(editormdLogoReg);
                         var twemojiMatchs = $1.match(twemojiReg);
 
@@ -3367,14 +3325,12 @@
                                 var logoName = emdlogoMathcs[x].replace(/:/g, "");
                                 return "<i class=\"" + logoName + "\" title=\"Editor.md logo (" + logoName + ")\"></i>";
                             }
-                        }
-                        else if (twemojiMatchs) {
+                        } else if (twemojiMatchs) {
                             for (var t = 0, len3 = twemojiMatchs.length; t < len3; t++) {
                                 var twe = twemojiMatchs[t].replace(/:/g, "").replace("tw-", "");
                                 return "<img src=\"" + editormd.twemoji.path + twe + editormd.twemoji.ext + "\" title=\"twemoji-" + twe + "\" alt=\"twemoji-" + twe + "\" class=\"emoji twemoji\" />";
                             }
-                        }
-                        else {
+                        } else {
                             var src = (name === "+1") ? "plus1" : name;
                             src = (src === "black_large_square") ? "black_square" : src;
                             src = (src === "moon") ? "waxing_gibbous_moon" : src;
@@ -3506,8 +3462,7 @@
                 text = text.replace(/(\$\$([^\$]*)\$\$)+/g, function ($1, $2) {
                     return "<span class=\"" + editormd.classNames.tex + "\">" + $2.replace(/\$/g, "") + "</span>";
                 });
-            }
-            else {
+            } else {
                 text = (isTeXLine) ? text.replace(/\$/g, "") : text;
             }
 
@@ -3521,14 +3476,11 @@
 
             if (lang === "seq" || lang === "sequence") {
                 return "<div class=\"sequence-diagram\">" + code + "</div>";
-            }
-            else if (lang === "flow") {
+            } else if (lang === "flow") {
                 return "<div class=\"flowchart\">" + code + "</div>";
-            }
-            else if (lang === "math" || lang === "latex" || lang === "katex") {
+            } else if (lang === "math" || lang === "latex" || lang === "katex") {
                 return "<p class=\"" + editormd.classNames.tex + "\">" + code + "</p>";
-            }
-            else {
+            } else {
 
                 return marked.Renderer.prototype.code.apply(this, arguments);
             }
@@ -3547,8 +3499,7 @@
                     .replace(/^\s*\[x\]\s*/, "<input type=\"checkbox\" class=\"task-list-item-checkbox\" checked disabled /> ");
 
                 return "<li style=\"list-style: none;\">" + this.atLink(this.emoji(text)) + "</li>";
-            }
-            else {
+            } else {
                 return "<li>" + this.atLink(this.emoji(text)) + "</li>";
             }
         };
@@ -3585,11 +3536,9 @@
 
             if (level > lastLevel) {
                 html += "";
-            }
-            else if (level < lastLevel) {
+            } else if (level < lastLevel) {
                 html += (new Array(lastLevel - level + 2)).join("</ul></li>");
-            }
-            else {
+            } else {
                 html += "</ul></li>";
             }
 
@@ -3719,8 +3668,7 @@
                 html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
                     return "<" + $2 + ">" + $4 + "</" + $5 + ">";
                 });
-            }
-            else if (attrs === "on*") {
+            } else if (attrs === "on*") {
                 html = html.replace(htmlTagRegex, function ($1, $2, $3, $4, $5) {
                     var el = $("<" + $2 + ">" + $4 + "</" + $5 + ">");
                     var _attrs = $($1)[0].attributes;
@@ -3742,8 +3690,7 @@
 
                     return el[0].outerHTML + text;
                 });
-            }
-            else {
+            } else {
                 html = html.replace(htmlTagRegex, function ($1, $2, $3, $4) {
                     var filterAttrs = attrs.split(",");
                     var el = $($1);
@@ -3896,8 +3843,7 @@
                     editormd.kaTeXLoaded = true;
                     katexHandle();
                 });
-            }
-            else {
+            } else {
                 katexHandle();
             }
         }
@@ -4028,8 +3974,7 @@
                     }
                 }
             };
-        }
-        else {
+        } else {
             script.onload = function () {
                 editormd.loadFiles.js.push(fileName);
                 callback();

@@ -40,8 +40,7 @@
             var ch = cur_scope(state);
             if (ch == "[" || ch == "{") {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }

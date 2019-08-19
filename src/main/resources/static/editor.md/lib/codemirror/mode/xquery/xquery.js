@@ -142,8 +142,7 @@
                 else if (ch == "/" && stream.eat(">")) {
                     popStateStack(state);
                     return ret("tag", "tag");
-                }
-                else
+                } else
                     return ret("word", "variable");
             }
             // if a number
@@ -186,8 +185,7 @@
             else if (ch === "]") {
                 popStateStack(state);
                 return ret("", null);
-            }
-            else {
+            } else {
                 var known = keywords.propertyIsEnumerable(ch) && keywords[ch];
 
                 // if there's a EQName ahead, consume the rest of the string portion, it's likely a function
@@ -245,8 +243,7 @@
                         popStateStack(state);
                         break;
                     }
-                }
-                else if (ch == ":" && maybeNested) {
+                } else if (ch == ":" && maybeNested) {
                     nestedCount++;
                 }
                 maybeEnd = (ch == ":");
@@ -282,8 +279,7 @@
                         popStateStack(state);
                         if (f) state.tokenize = f;
                         break;
-                    }
-                    else {
+                    } else {
                         // if we're in a string and in an XML block, allow an embedded code block in an attribute
                         if (stream.match("{", false) && isInXmlAttributeBlock(state)) {
                             state.tokenize = tokenBase;
@@ -331,8 +327,7 @@
                 if (!stream.eat(">")) {
                     state.tokenize = tokenAttribute;
                     return ret("tag", "tag");
-                }
-                else {
+                } else {
                     state.tokenize = tokenBase;
                 }
                 return ret("tag", "tag");

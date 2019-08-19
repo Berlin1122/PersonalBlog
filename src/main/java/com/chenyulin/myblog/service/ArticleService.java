@@ -57,7 +57,7 @@ public class ArticleService {
      * 查询某个类别下的文章,根据页码决定查询数量
      *
      * @param categoryId
-     * @param page    1表示第一页,2表示第二页...
+     * @param page       1表示第一页,2表示第二页...
      * @return
      */
     public List<Article> getArticleListByCategoryId(int categoryId, int page) {
@@ -78,13 +78,13 @@ public class ArticleService {
      *
      * @param userId
      * @param title
-     * @param page    1表示第一页,2表示第二页...
+     * @param page   1表示第一页,2表示第二页...
      * @return
      */
     public List<Article> getArticleListByTitle(int userId, String title, int page) {
         int startIndex = PageUtil.calStartIndex(page);
         int countPerpage = (int) PageUtil.DATA_COUNT_PERPAGE;
-        return repository.queryArticleByTitle(title,userId,startIndex, countPerpage);
+        return repository.queryArticleByTitle(title, userId, startIndex, countPerpage);
     }
 
     /**

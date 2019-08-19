@@ -155,8 +155,7 @@
                     while (ctx.type == "statement") ctx = popContext(state);
                     if (ctx.type == "}") ctx = popContext(state);
                     while (ctx.type == "statement") ctx = popContext(state);
-                }
-                else if (curPunc == ctx.type) popContext(state);
+                } else if (curPunc == ctx.type) popContext(state);
                 else if (indentStatements &&
                     (((ctx.type == "}" || ctx.type == "top") && curPunc != ';') ||
                         (ctx.type == "statement" && curPunc == "newstatement")))
