@@ -15,4 +15,10 @@
     position: fixed;
     bottom: 0;width:100%;
 }
+.background{
+    background-image: url("../../img/bg.jpg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 
